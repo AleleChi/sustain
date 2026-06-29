@@ -311,6 +311,15 @@ The system must compile flawlessly and look magnificent across all standard devi
     *   Avoid “SUSTAIN LMS Portal” and system-like labels in public/auth UI.
     *   Auth copy must be human, calm, and product-specific.
     *   Public/auth UI must not use system-style trust badges or legal/compliance claims such as “Secure Access Portal” or “NDPR Compliant” unless the wording is approved and legally verified. Use plain product copy instead.
+*   **Pathway Preloader Guidelines:**
+    *   SUSTAIN LMS preloader must feel like a learning pathway, not a generic system loader.
+    *   Do not use spinner-only loaders.
+    *   Do not use blinking dots, bouncing dots, pulsing indicators, system badges, compliance claims, or version labels.
+    *   Loader copy must be human and product-specific.
+    *   Loader typography must use Plus Jakarta Sans and Inter.
+    *   Loader should appear once per session.
+    *   Loader duration should be calm: around 2.6–3 seconds on first load.
+    *   Reduced motion must be supported.
 
 ## 25. Implementation Checklist
 Before completing any UI, layout, or copy adjustment, verify the following checklist:

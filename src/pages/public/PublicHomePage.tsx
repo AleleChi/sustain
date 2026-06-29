@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useRoute } from "../../context/RouteContext";
 import { Card } from "../../components/ui/Card";
+import { SustainPreloader } from "../../components/public/SustainPreloader";
 import { 
   Award, 
   BookOpen, 
@@ -30,12 +31,20 @@ export function PublicHomePage() {
   // Preloader state
   const [showPreloader, setShowPreloader] = useState(() => {
     if (typeof window !== "undefined") {
-      return !sessionStorage.getItem("sustain-public-preloader-seen");
+      if ((window as any).__sustain_spa_loaded) {
+        return false;
+      }
+      return true;
     }
     return true;
   });
-  const [progress, setProgress] = useState(0);
-  const [caption, setCaption] = useState("Preparing your pathway...");
+
+  const handlePreloaderComplete = () => {
+    setShowPreloader(false);
+    if (typeof window !== "undefined") {
+      (window as any).__sustain_spa_loaded = true;
+    }
+  };
 
   // Sticky bottom action bar state
   const [showStickyBar, setShowStickyBar] = useState(false);
@@ -67,54 +76,6 @@ export function PublicHomePage() {
     return () => clearInterval(interval);
   }, [textItems.length]);
 
-  // Preloader progress simulation
-  useEffect(() => {
-    if (!showPreloader) return;
-
-    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReduced) {
-      // If user prefers reduced motion, fast-forward and finish
-      setProgress(100);
-      setCaption("Ready to continue.");
-      const timer = setTimeout(() => {
-        setShowPreloader(false);
-        sessionStorage.setItem("sustain-public-preloader-seen", "true");
-      }, 700);
-      return () => clearTimeout(timer);
-    }
-
-    const duration = 1500; // 1.5 seconds total
-    const intervalTime = 30;
-    const steps = duration / intervalTime;
-    let currentStep = 0;
-
-    const timer = setInterval(() => {
-      currentStep++;
-      const percentage = Math.min((currentStep / steps) * 100, 100);
-      setProgress(percentage);
-
-      if (percentage < 35) {
-        setCaption("Preparing your pathway...");
-      } else if (percentage < 75) {
-        setCaption("Checking learning access...");
-      } else {
-        setCaption("Ready to continue.");
-      }
-
-      if (currentStep >= steps) {
-        clearInterval(timer);
-        setTimeout(() => {
-          setShowPreloader(false);
-          sessionStorage.setItem("sustain-public-preloader-seen", "true");
-        }, 150);
-      }
-    }, intervalTime);
-
-    return () => {
-      clearInterval(timer);
-    };
-  }, [showPreloader]);
-
   // Scroll listener for mobile sticky action bar
   useEffect(() => {
     const handleScroll = () => {
@@ -136,81 +97,7 @@ export function PublicHomePage() {
           A. UNIQUE SUSTAIN PATHWAY PRELOADER (Runs once per session)
           ========================================================= */}
       {showPreloader && (
-        <div 
-          aria-label="Loading SUSTAIN LMS"
-          role="status"
-          aria-live="polite"
-          className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#003B2C] text-white transition-opacity duration-350 ease-out"
-        >
-          <div className="w-full max-w-sm px-6 text-center space-y-8">
-            {/* Logo Wordmark */}
-            <div className="space-y-2">
-              <h1 className="text-3xl font-extrabold tracking-tight font-heading text-white flex items-center justify-center gap-2">
-                <span className="w-2.5 h-6 bg-emerald-400 rounded-xs inline-block"></span>
-                SUSTAIN <span className="font-light text-emerald-300 text-2xl">LMS</span>
-              </h1>
-              <p className="text-[10px] font-bold text-emerald-400 uppercase tracking-widest font-mono">
-                Sustained Learning Pathways
-              </p>
-            </div>
-
-            {/* Pathway Line with 4 Milestone Dots */}
-            <div className="relative pt-6 pb-2">
-              {/* Connector line (bg) */}
-              <div className="absolute top-1/2 left-0 right-0 h-0.5 bg-emerald-950/80 -translate-y-1/2 rounded-full" />
-              
-              {/* Dynamic filled line */}
-              <div 
-                className="absolute top-1/2 left-0 h-0.5 bg-emerald-400 -translate-y-1/2 rounded-full transition-all duration-75 ease-out"
-                style={{ width: `${progress}%` }}
-              />
-
-              {/* 4 milestones */}
-              <div className="relative flex justify-between">
-                {[
-                  { name: "Learn", percent: 0 },
-                  { name: "Assess", percent: 33 },
-                  { name: "Review", percent: 66 },
-                  { name: "Certify", percent: 100 }
-                ].map((m, idx) => {
-                  const isActive = progress >= m.percent;
-                  return (
-                    <div key={idx} className="flex flex-col items-center space-y-2">
-                      <div 
-                        className={`w-3.5 h-3.5 rounded-full border-2 flex items-center justify-center transition-all duration-300 ${
-                          isActive 
-                            ? "bg-emerald-400 border-emerald-300 scale-110 shadow-sm shadow-emerald-400/40" 
-                            : "bg-[#003B2C] border-emerald-950 scale-90"
-                        }`}
-                      >
-                        {isActive && (
-                          <div className="w-1.5 h-1.5 bg-[#003B2C] rounded-full" />
-                        )}
-                      </div>
-                      <span 
-                        className={`text-[9px] font-bold tracking-wider font-mono transition-colors duration-300 ${
-                          isActive ? "text-emerald-300" : "text-emerald-800"
-                        }`}
-                      >
-                        {m.name}
-                      </span>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-
-            {/* Loading caption and percentage */}
-            <div className="space-y-1.5">
-              <p className="text-xs text-slate-200 font-sans font-medium h-4">
-                {caption}
-              </p>
-              <p className="text-[9px] font-mono font-bold text-emerald-500">
-                {Math.round(progress)}%
-              </p>
-            </div>
-          </div>
-        </div>
+        <SustainPreloader onComplete={handlePreloaderComplete} />
       )}
 
 
