@@ -10,6 +10,7 @@ export type RoutePath =
   | "/terms"
   | "/accessibility"
   | "/login"
+  | "/sign-in"
   | "/signup"
   | "/onboarding"
   | "/register"
@@ -114,6 +115,7 @@ const VALID_ROUTES: RoutePath[] = [
   "/terms",
   "/accessibility",
   "/login",
+  "/sign-in",
   "/signup",
   "/register",
   "/pathways",
@@ -226,6 +228,16 @@ function cleanAndNormalize(rawPath: string): string {
   // Map /home to /
   if (cleaned === "/home") {
     cleaned = "/";
+  }
+
+  // Map alternative verification routes
+  if (cleaned === "/verify" || cleaned === "/certificate-verification") {
+    cleaned = "/verify-certificate";
+  }
+
+  // Map sign-in to login
+  if (cleaned === "/sign-in") {
+    cleaned = "/login";
   }
   
   return cleaned;

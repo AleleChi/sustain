@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useRoute, RoutePath } from "../../context/RouteContext";
 import { 
   X,
@@ -35,12 +35,18 @@ interface AppNavigationDrawerProps {
 
 export function AppNavigationDrawer({ isOpen, onClose, moduleType }: AppNavigationDrawerProps) {
   const { currentPath, navigateTo } = useRoute();
+  const [showSignOutConfirm, setShowSignOutConfirm] = useState(false);
+  const stayButtonRef = useRef<HTMLButtonElement>(null);
 
   // Close drawer on ESC key
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
-        onClose();
+        if (showSignOutConfirm) {
+          setShowSignOutConfirm(false);
+        } else {
+          onClose();
+        }
       }
     };
     if (isOpen) {
@@ -51,7 +57,17 @@ export function AppNavigationDrawer({ isOpen, onClose, moduleType }: AppNavigati
       window.removeEventListener("keydown", handleKeyDown);
       document.body.style.overflow = "";
     };
-  }, [isOpen, onClose]);
+  }, [isOpen, onClose, showSignOutConfirm]);
+
+  // Focus trap / restore for Sign Out Confirmation Modal
+  useEffect(() => {
+    if (showSignOutConfirm) {
+      const timer = setTimeout(() => {
+        stayButtonRef.current?.focus();
+      }, 50);
+      return () => clearTimeout(timer);
+    }
+  }, [showSignOutConfirm]);
 
   const isLearner = moduleType === "learner";
 
@@ -152,8 +168,9 @@ export function AppNavigationDrawer({ isOpen, onClose, moduleType }: AppNavigati
   };
 
   return (
-    <div 
-      className={`fixed inset-0 z-40 lg:hidden transition-all duration-300 ${
+    <>
+      <div 
+        className={`fixed inset-0 z-[100] lg:hidden transition-all duration-300 ${
         isOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
       }`} 
       role="dialog" 
@@ -313,11 +330,14 @@ export function AppNavigationDrawer({ isOpen, onClose, moduleType }: AppNavigati
         </nav>
 
         {/* Sticky Bottom Actions */}
-        <div className="p-4 border-t border-slate-200 shrink-0 space-y-2 bg-white/95 backdrop-blur-sm sticky bottom-0 pb-safe shadow-lg">
-          <div className="grid grid-cols-2 gap-2">
+        <div 
+          className="px-4 pt-3 border-t border-slate-200 shrink-0 space-y-2.5 bg-white/95 backdrop-blur-sm sticky bottom-0 shadow-lg"
+          style={{ paddingBottom: "calc(16px + env(safe-area-inset-bottom))" }}
+        >
+          <div className="grid grid-cols-2 gap-2.5">
             <button
               onClick={() => handleItemClick(isLearner ? "/learner/support" : "/facilitator/support-tickets")}
-              className="flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl text-[11px] font-bold text-emerald-800 bg-emerald-50 hover:bg-emerald-100 active:scale-[0.99] transition-all cursor-pointer shadow-3xs"
+              className="flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl text-[11px] font-bold text-emerald-800 bg-emerald-50 hover:bg-emerald-100 active:scale-[0.99] transition-all cursor-pointer shadow-3xs h-[44px]"
               aria-label="Ask for help"
             >
               <HelpCircle className="h-4 w-4 text-emerald-600" />
@@ -326,7 +346,7 @@ export function AppNavigationDrawer({ isOpen, onClose, moduleType }: AppNavigati
 
             <button
               onClick={() => handleItemClick(isLearner ? "/learner/profile" : "/facilitator/profile")}
-              className="flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl text-[11px] font-bold text-slate-700 bg-slate-50 hover:bg-slate-100 active:scale-[0.99] transition-all cursor-pointer shadow-3xs"
+              className="flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl text-[11px] font-bold text-slate-700 bg-slate-50 hover:bg-slate-100 active:scale-[0.99] transition-all cursor-pointer shadow-3xs h-[44px]"
               aria-label="View Profile"
             >
               <User className="h-4 w-4 text-slate-500" />
@@ -335,8 +355,8 @@ export function AppNavigationDrawer({ isOpen, onClose, moduleType }: AppNavigati
           </div>
 
           <button
-            onClick={() => handleItemClick("/login")}
-            className="w-full flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl text-xs font-bold text-rose-700 hover:bg-rose-50 active:scale-[0.99] transition-all cursor-pointer"
+            onClick={() => setShowSignOutConfirm(true)}
+            className="w-full flex items-center justify-center gap-2 px-3.5 py-2.5 h-[44px] rounded-2xl text-xs font-semibold text-rose-700 bg-rose-50 border border-rose-100 hover:bg-rose-100 active:scale-[0.99] transition-all cursor-pointer focus:outline-hidden focus:ring-2 focus:ring-rose-100"
             aria-label="Sign out"
           >
             <LogOut className="h-4 w-4 text-rose-500" />
@@ -345,5 +365,45 @@ export function AppNavigationDrawer({ isOpen, onClose, moduleType }: AppNavigati
         </div>
       </div>
     </div>
-  );
+
+    {/* Sign Out Confirmation Modal */}
+    {showSignOutConfirm && (
+      <div 
+        className="fixed inset-0 bg-slate-950/60 backdrop-blur-sm z-[110] flex items-center justify-center p-4"
+        role="dialog"
+        aria-modal="true"
+      >
+        <div className="bg-white rounded-[28px] border border-slate-100 p-6 max-w-sm w-full shadow-2xl text-left space-y-4 animate-in fade-in zoom-in-95 duration-200">
+          <div className="space-y-2">
+            <h3 className="text-base font-extrabold text-slate-900 font-sans tracking-tight">
+              Sign out of SUSTAIN LMS?
+            </h3>
+            <p className="text-xs text-slate-500 leading-relaxed font-sans font-medium">
+              You will return to the sign-in page. Any saved drafts on this device will remain available when you sign in again.
+            </p>
+          </div>
+          <div className="flex gap-3 pt-1">
+            <button
+              ref={stayButtonRef}
+              onClick={() => setShowSignOutConfirm(false)}
+              className="bg-[#005C45] hover:bg-[#003B2C] active:scale-[0.99] text-white text-xs font-bold px-4 py-3 rounded-xl transition-all cursor-pointer flex-1 text-center shadow-3xs h-[40px] focus:outline-hidden focus:ring-2 focus:ring-emerald-200"
+            >
+              Stay Signed In
+            </button>
+            <button
+              onClick={() => {
+                setShowSignOutConfirm(false);
+                onClose();
+                navigateTo("/login");
+              }}
+              className="bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-100 text-xs font-bold px-4 py-3 rounded-xl transition-all cursor-pointer flex-1 text-center h-[40px] focus:outline-hidden focus:ring-2 focus:ring-rose-100"
+            >
+              Sign Out
+            </button>
+          </div>
+        </div>
+      </div>
+    )}
+  </>
+);
 }

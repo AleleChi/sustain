@@ -264,6 +264,7 @@ function AppContent() {
           <LearnerLessonPage />
         );
       case "/login":
+      case "/sign-in":
         return (
           <AuthLayout>
             <LoginPage />

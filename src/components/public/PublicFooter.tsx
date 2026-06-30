@@ -48,7 +48,7 @@ export function PublicFooter() {
               </span>
             </div>
             <p className="text-xs text-slate-500 leading-relaxed max-w-sm">
-              Sustained learning and program support for Nigerian Agribusiness. Empowering regional agribusiness cohorts through structured pathways and verified professional credentials.
+              Mobile-first CPD delivery for learning pathways, review, and certificate readiness.
             </p>
           </div>
 
@@ -157,13 +157,13 @@ export function PublicFooter() {
         {/* Footer bottom */}
         <div className="mt-8 pt-6 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-xs text-slate-400">
-            © 2026 SUSTAIN LMS. All rights reserved. Sustained learning pathways for Nigerian Agribusiness.
+            © 2026 SUSTAIN LMS. Prototype prepared by Devnra Ltd for proposal demonstration.
           </p>
-          <div className="flex items-center gap-4 text-slate-450">
-            <span className="text-[10px] text-slate-400">
+          <div className="flex items-center gap-4 text-slate-400">
+            <span className="text-[10px]">
               Assigned Pathway Access
             </span>
-            <span className="text-[10px] text-slate-400">
+            <span className="text-[10px]">
               Accessibility Supported
             </span>
           </div>

@@ -525,7 +525,7 @@ export function PublicInfoPage() {
   const page = getPageData();
 
   return (
-    <div id="public-info-page" className="space-y-12">
+    <div id="public-info-page" className="max-w-5xl mx-auto px-5 py-8 md:py-16 space-y-12">
       {/* Header Banner */}
       <section className="bg-white border border-slate-200 rounded-2xl p-8 md:p-12 shadow-xs flex flex-col md:flex-row items-start md:items-center gap-6 justify-between text-left">
         <div className="space-y-3 flex-1">

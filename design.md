@@ -299,6 +299,12 @@ The system must compile flawlessly and look magnificent across all standard devi
 ---
 
 ## 24. Public and Auth Refinement Rules
+*   **Certificate Public Trust Experience:** Certificate verification must feel like a premium public trust experience, not a system registry or backend lookup form. Avoid mechanical labels and backend terminology. Do not use terms like "Certificate Registry", "Credential Tracking", "Pending Audit", "Issue Status", or compliance/system wording. Use sentence case like "Verify a SUSTAIN certificate".
+*   **Verification Field & Placeholder Standards:** Keep input placeholders short, concise, and human-oriented (e.g., "Enter certificate ID"). Never use long examples inside the placeholder itself. Place clear, soft example selection chips below the lookup field.
+*   **Simplified Login Experience:** The login experience must remain clean, minimal, and premium. To prevent looking like an administrative portal before the user actually signs in, do not display large role-aware dashboard previews or course statistics before authentication.
+*   **Subtle Access Selection:** Role-based access selectors on the login screen must be subtle, highly polished segmented controls (e.g., "Continue as: Learner / Facilitator / Programme Team") and must not display dominant demo control banners. Provide a single, short helper line indicating that the correct workspace opens post-login.
+*   **Interactive Public Cards & Hover States:** Public pages must utilize consistent visual standards with soft borders, rounded corners (`rounded-2xl` or `rounded-3xl`), and robust interaction feedback. On desktop hover, cards should lift slightly (`-translate-y-1`), feature a soft shadow (`shadow-md`), and strengthen icon accents without using aggressive flashes, glows, or blinking indicators. Support tap scaling on mobile (`active:scale-[0.99]`) and clear focus rings for keyboard accessibility.
+*   **Matched Desktop Landing Quality:** The desktop landing experience must match the visual caliber of the mobile hero. Utilize a premium split layout with a clean typographic heading ("Every step, clearly connected."), golden/amber text highlights, realistic product previews, and zero disconnected gutters.
 *   **No Public Role Hierarchy:** Do not prominently expose internal system hierarchy or workspaces (Learner, Facilitator, Programme Team) on the main public landing or auth hero sections. Let the landing page focus on value, and map roles *after* login or signup.
 *   **Natural Credential Wording:** Never use terms like "Credential Tracking", "Pending Audit", "Issue Status", or "Under Review" as marketing labels on the landing page. Use human equivalents: "CPD and certificate readiness", "Review pending", "Certificate status: Review pending", and "CPD progress".
 *   **Human-Centered Auth Copy:** Avoid uppercase, robotic or platform-sounding copy like "OR SIGN IN WITH YOUR SUSTAIN DETAILS". Instead, use calm human dividers like "or use your SUSTAIN account". Placeholders should be clean, concise, in the sans font (Inter), and use slate-400 or slate-500.
@@ -358,6 +364,8 @@ The system must compile flawlessly and look magnificent across all standard devi
 *   **Shaped Memorable Headline:** Use human-centered, memorable, and product-specific headlines such as "Every step, clearly connected."
 *   **Warm Amber Emphasis Accent:** One emphasis word may use warm amber (`#FBBF24`, `amber-300`, or `amber-400`) to highlight connection or progress. Avoid neon, harsh orange, red-orange, glow, or gradient text.
 *   **Human Product Subtext:** Use clear, descriptive subtext outlining the end-to-end learning flow: lessons, CPD tracker, certificate review, and low-connectivity resilience.
+*   **Mobile Spacing & Gutters:** Mobile landing hero must not create unnecessary side whitespace or look like a detached random card. Hero should be full-bleed, filling the mobile screen area with intentional, elegant padding. Mobile landing sections must flow naturally from hero to footer with consistent, balanced spacing, avoiding large, random white gaps or squeezed desktop grids on mobile viewports.
+*   **Product Preview Card Safety:** Product preview cards must never let status chips or other metadata overflow outside card boundaries. Maintain responsive layout rows where status chips wrap gracefully beneath titles on extremely narrow viewports (e.g. 360px), ensuring robust alignment without absolute positioning or negative margins.
 *   **Card Interactions and Layouts:**
     *   Landing cards must follow the SUSTAIN standard: `rounded-2xl` or `rounded-3xl`, bg-white, warm white, or soft-tinted surfaces, soft borders, subtle shadows, and spacious, balanced padding.
     *   No black borders, harsh outlines, raw grey pills, or unstyled system widgets.
@@ -368,8 +376,36 @@ The system must compile flawlessly and look magnificent across all standard devi
 ## 30. Mobile Navigation Drawer & Sidebar Experience
 *   **Premium Mobile App Panels:** Reusable learner/facilitator navigation drawers must feel like premium mobile app panels, not plain menu lists. They should include role-aware header context, grouped navigation, useful learner/facilitator status, visible support/profile/sign-out actions, and a sticky bottom action area.
 *   **Hidden Overlay Behavior:** Mobile drawers must remain hidden overlays and must never push or replace page content.
+*   **Sign Out Action & Confirmation Flow:** Reusable learner/facilitator drawers must include a visible Sign Out action in the sticky bottom action area. Sign Out should use a subtle destructive style and must trigger a confirmation modal or bottom sheet before routing to login. It must not be hidden below the drawer scroll or placed only as an icon.
 
-## 31. Implementation Checklist
+## 31. Learner Profile Module Design Standards
+*   **Mobile Account Hub Behavior:** The Learner Profile module must behave like a mobile account hub, not a generic settings page. It should include identity, pathway progress, preferences, access/connectivity settings, support/resources, and separated account actions.
+*   **Sign Out Style:** Sign Out must use a subtle destructive style and confirmation flow. Avoid black borders, raw account records, backend-style labels, and generic settings rows.
+
+## 32. Login Access Selection & Workspace Previews
+*   **Polished Workspace Entry:** Login access selection must feel like a polished workspace entry experience, not a demo control. Avoid “Choose demo access” in public UI.
+*   **Role-Aware Workspace Previews:** Role-aware previews should be compact, useful, and visually refined. Learner previews should show pathway progress, facilitator previews should show review work, and programme programme previews should show delivery visibility.
+*   **Aesthetic & Styling Rules:** Do not use flat dark blocks, default grey pills, system labels, or prototype language in normal UI. Use premium segmented controls, light soft-tinted cards with appropriate AA accessible chips, and smooth transitions on role adjustments.
+
+---
+
+## 33. Technical Architecture & SPA Routing Guide
+To preserve the premium feel and support fast, reliable operations (even in low-bandwidth regional contexts), SUSTAIN LMS utilizes a lightweight, fully integrated Single Page Application (SPA) architecture:
+
+*   **State-Authoritative Routing Context:**
+    *   **The Routing Engine:** Managed via a centralized `RouteContext` using hash-based navigation (`window.location.hash`). This allows rapid view switching, zero-flicker rendering, and natural browser forward/back tracking without expensive server handshakes.
+    *   **Url Normalization:** All routes are normalized instantly. For example, hash changes are checked for sub-parameters such as `#login?role=facilitator` or `#verify-certificate?id=SUST-CERT-2026-0148`.
+    *   **Workspace Synchronization:** The current authentication status and user roles (`learner`, `facilitator`, `admin`) are shared from this context. Components dynamically adapt their visual frames, sub-headers, sidebars, and actions based on the current active role state.
+*   **Seamless Role Verification Flow:**
+    *   **Automatic Role Binding:** In the Login interface, the standard "Continue as" segment switcher is omitted to protect internal database structures and look highly professional.
+    *   **Dynamic Matching:** Instead, as the user types, the login controller runs a real-time pattern match on the text. Emails or identifiers containing `"facilitator"` automatically preset the Facilitator workspace layout, while `"admin"`, `"prog"`, or `"coordinator"` activate the Programme Team preview. All other entries default to the Learner workspace layout.
+*   **Offline State Synchronization Cache:**
+    *   **Local Resilience:** Real-time data and learning progress are saved to a localized frontend cache. When cellular signals fail or regional power cuts hit local hubs, learners can continue typing assignment drafts, checking finished course guides, and tracking completed checkpoints safely.
+    *   **State Merging:** Once connectivity is re-established, the platform performs a background merge, pushing local changes up to the server and updating the core CPD credit counts smoothly.
+
+---
+
+## 34. Implementation Checklist
 Before completing any UI, layout, or copy adjustment, verify the following checklist:
 
 1.  [ ] **Read design.md:** Confirm changes match the official design rules.

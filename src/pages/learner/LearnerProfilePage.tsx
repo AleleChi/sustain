@@ -873,52 +873,59 @@ export default function LearnerProfilePage() {
 
   const renderMobileProfileHeroCard = () => {
     return (
-      <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 text-left space-y-4">
-        {/* Top Row: Avatar on left, name/status on right */}
-        <div className="flex items-start gap-3.5">
-          <div className="h-14 w-14 rounded-full bg-emerald-50 text-emerald-900 flex items-center justify-center font-bold text-lg border border-emerald-100 shrink-0 shadow-xs">
-            AM
-          </div>
-          <div className="space-y-1">
-            <div className="flex flex-wrap items-center gap-1.5">
-              <h3 className="text-base font-bold text-slate-900">Aisha Mohammed</h3>
-              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-50 text-emerald-800 border border-emerald-100">
-                <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-                Active learner
-              </span>
+      <div className="bg-gradient-to-br from-emerald-950 to-emerald-900 text-white rounded-3xl p-6 shadow-md relative overflow-hidden text-left border-none">
+        {/* Subtle decorative circles for a premium organic feel */}
+        <div className="absolute top-0 right-0 -mt-8 -mr-8 w-24 h-24 bg-emerald-800/30 rounded-full blur-xl pointer-events-none" />
+        <div className="absolute bottom-0 left-0 -mb-8 -ml-8 w-32 h-32 bg-emerald-900/20 rounded-full blur-2xl pointer-events-none" />
+
+        <div className="relative z-10 space-y-5">
+          {/* Top block: Avatar + Name info */}
+          <div className="flex items-center gap-4">
+            <div className="h-16 w-16 rounded-full bg-white/10 backdrop-blur-md text-white flex items-center justify-center font-bold text-xl tracking-wide border border-white/20 shrink-0 shadow-sm">
+              AM
             </div>
-            <p className="text-xs text-slate-500 font-medium">
-              Youth Employability Pathway learner
-            </p>
+            <div className="space-y-0.5">
+              <span className="text-[10px] font-bold text-emerald-300 uppercase tracking-wider block">
+                Learner account
+              </span>
+              <h3 className="text-xl font-bold tracking-tight text-white font-sans">Aisha Mohammed</h3>
+              <p className="text-xs text-emerald-100 font-medium leading-normal">
+                Youth Employability Pathway
+              </p>
+            </div>
           </div>
-        </div>
 
-        {/* Metadata Rows */}
-        <div className="space-y-1.5 pt-1.5 text-xs text-slate-600 border-t border-slate-100">
-          <div className="flex justify-between">
-            <span className="text-slate-400">Learner ID</span>
-            <span className="font-semibold text-slate-800">SUST-LRN-0442</span>
+          {/* Quick info rows */}
+          <div className="grid grid-cols-2 gap-y-3 gap-x-4 pt-3.5 border-t border-white/10 text-xs">
+            <div>
+              <span className="text-emerald-300 block text-[10px] font-medium font-sans">Learner ID</span>
+              <span className="font-semibold text-white mt-0.5 block">SUST-LRN-0442</span>
+            </div>
+            <div>
+              <span className="text-emerald-300 block text-[10px] font-medium font-sans">Facilitator</span>
+              <span className="font-semibold text-white mt-0.5 block">Halima Sani</span>
+            </div>
+            <div className="col-span-2">
+              <span className="text-emerald-300 block text-[10px] font-medium font-sans">Cohort</span>
+              <span className="font-medium text-white/90 mt-0.5 block">Kano Youth Employability Cohort 02</span>
+            </div>
           </div>
-          <div className="flex justify-between items-start gap-4">
-            <span className="text-slate-400 shrink-0">Cohort</span>
-            <span className="font-medium text-slate-800 text-right">Kano Youth Employability Cohort 02</span>
-          </div>
-        </div>
 
-        {/* Buttons */}
-        <div className="flex flex-col gap-2.5 pt-2">
-          <button
-            onClick={handleEditPreferencesScroll}
-            className="w-full bg-emerald-900 hover:bg-emerald-850 text-white text-xs font-semibold h-12 rounded-2xl transition-all shadow-sm cursor-pointer flex items-center justify-center border-none"
-          >
-            Edit Preferences
-          </button>
-          <button
-            onClick={() => navigateTo("/learner/cpd-record")}
-            className="w-full bg-slate-50/50 hover:bg-slate-100/50 border border-slate-200 text-emerald-800 text-xs font-semibold h-12 rounded-2xl transition-all shadow-sm cursor-pointer flex items-center justify-center"
-          >
-            Certificate Record
-          </button>
+          {/* Action buttons */}
+          <div className="grid grid-cols-2 gap-3 pt-3">
+            <button
+              onClick={handleEditPreferencesScroll}
+              className="bg-white hover:bg-emerald-50 text-emerald-900 text-xs font-bold py-2.5 px-4 rounded-xl transition-all shadow-xs cursor-pointer text-center min-h-[42px] flex items-center justify-center border-none"
+            >
+              Edit Preferences
+            </button>
+            <button
+              onClick={() => navigateTo("/learner/cpd-record")}
+              className="bg-emerald-900/60 hover:bg-emerald-900 text-white border border-emerald-700/50 text-xs font-bold py-2.5 px-4 rounded-xl transition-all shadow-xs cursor-pointer text-center min-h-[42px] flex items-center justify-center"
+            >
+              View CPD Record
+            </button>
+          </div>
         </div>
       </div>
     );
@@ -926,38 +933,31 @@ export default function LearnerProfilePage() {
 
   const renderMobileLearningIdentityCard = () => {
     return (
-      <div className="bg-gradient-to-br from-emerald-950 to-emerald-900 text-white rounded-2xl p-5 text-left shadow-sm space-y-4">
-        <div className="flex justify-between items-start">
-          <div className="space-y-0.5">
-            <span className="text-[10px] font-bold text-emerald-300 uppercase tracking-wider">
-              Learning Identity
-            </span>
-            <h4 className="text-base font-bold tracking-tight text-white">Youth Employability Pathway</h4>
-          </div>
-          <span className="bg-emerald-900/80 px-2 py-0.5 rounded border border-emerald-800/40 text-emerald-300 font-semibold text-[10px] shrink-0 mt-0.5">
-            Review pending
-          </span>
+      <div id="mobile-learning-identity" className="bg-white rounded-3xl border border-slate-200 p-5 space-y-4 text-left shadow-xs">
+        <div className="space-y-1">
+          <h3 className="text-sm font-bold text-slate-955 font-sans tracking-tight">Learning identity</h3>
+          <p className="text-xs text-slate-500 leading-normal font-normal">
+            Your registered program information and identifier.
+          </p>
         </div>
 
-        <div className="grid grid-cols-2 gap-4 text-xs pt-1 border-t border-emerald-900/60">
-          <div>
-            <span className="text-emerald-300 block text-[10px]">Course</span>
-            <span className="font-semibold text-white mt-0.5 block">Work Readiness Foundation</span>
-          </div>
-          <div>
-            <span className="text-emerald-300 block text-[10px]">CPD Progress</span>
-            <span className="font-semibold text-white mt-0.5 block">22 of 35 credits</span>
-          </div>
-        </div>
-
-        <div className="pt-2">
-          <button
-            onClick={() => navigateTo("/learner/cpd-record")}
-            className="w-full bg-emerald-900/70 hover:bg-emerald-900 text-emerald-100 hover:text-white border border-emerald-800/40 text-xs font-semibold py-2 px-4 rounded-xl transition-all cursor-pointer flex items-center justify-center gap-1"
-          >
-            <span>View CPD Record</span>
-            <ChevronRight className="h-3.5 w-3.5" />
-          </button>
+        <div className="space-y-3 pt-1">
+          {[
+            { label: "Learner ID", value: "SUST-LRN-0442", mono: true },
+            { label: "Programme", value: "Youth Employability Pathway" },
+            { label: "Cohort", value: "Kano Youth Employability Cohort 02" },
+            { label: "Facilitator", value: "Halima Sani" }
+          ].map((item, idx) => (
+            <div 
+              key={idx} 
+              className="flex flex-col min-[380px]:flex-row min-[380px]:items-center justify-between py-2.5 border-b border-slate-100 last:border-0 gap-1"
+            >
+              <span className="text-xs text-slate-500 font-medium font-sans">{item.label}</span>
+              <span className={`text-xs font-semibold text-slate-800 ${item.mono ? "font-mono" : ""}`}>
+                {item.value}
+              </span>
+            </div>
+          ))}
         </div>
       </div>
     );
@@ -1350,11 +1350,389 @@ export default function LearnerProfilePage() {
               <div className="p-1.5 rounded-lg bg-red-50 text-red-700 shrink-0">
                 <LogOut className="h-4 w-4" />
               </div>
-              <span className="text-xs font-semibold text-red-650 group-hover:text-red-700 block">
+              <span className="text-xs font-semibold text-red-655 group-hover:text-red-700 block">
                 Sign Out
               </span>
             </div>
             <ChevronRight className="h-4 w-4 text-red-400 shrink-0 group-hover:translate-x-0.5 transition-transform" />
+          </button>
+        </div>
+      </div>
+    );
+  };
+
+  // 3. Pathway Progress Card
+  const renderMobilePathwayProgressCard = () => {
+    return (
+      <div className="bg-emerald-50/40 border border-emerald-100/70 rounded-3xl p-5 text-left shadow-xs space-y-4">
+        <div className="flex justify-between items-start">
+          <div className="space-y-1">
+            <h3 className="text-sm font-bold text-emerald-955 font-sans tracking-tight">Your pathway progress</h3>
+            <p className="text-xs text-slate-600 leading-normal">
+              Active status in the Youth Employability Pathway
+            </p>
+          </div>
+          <span className="bg-emerald-100/60 text-emerald-850 text-[10px] font-bold px-2.5 py-1 rounded-full border border-emerald-200/50">
+            Active
+          </span>
+        </div>
+
+        {/* Course progress bar */}
+        <div className="space-y-2 pt-1">
+          <div className="flex justify-between items-center text-xs">
+            <span className="text-slate-600 font-medium">Pathway progress</span>
+            <span className="font-bold text-emerald-900">40% completed</span>
+          </div>
+          <div className="w-full bg-slate-200/75 h-2.5 rounded-full overflow-hidden">
+            <div className="bg-emerald-800 h-full rounded-full transition-all" style={{ width: "40%" }} />
+          </div>
+        </div>
+
+        {/* Stats columns */}
+        <div className="grid grid-cols-2 gap-4 pt-3 border-t border-emerald-100/50 text-xs">
+          <div>
+            <span className="text-slate-505 block text-[10px] font-medium">Current course</span>
+            <span className="font-semibold text-slate-850 mt-0.5 block leading-snug">Work Readiness Foundation</span>
+          </div>
+          <div>
+            <span className="text-slate-505 block text-[10px] font-medium">CPD credits</span>
+            <span className="font-semibold text-slate-850 mt-0.5 block leading-snug">22 of 35 credits</span>
+          </div>
+          <div className="col-span-2">
+            <span className="text-slate-505 block text-[10px] font-medium">Certificate readiness</span>
+            <span className="font-semibold text-emerald-850 mt-0.5 block leading-snug">Ready for review</span>
+          </div>
+        </div>
+
+        {/* View Journey Action Button */}
+        <div className="pt-2">
+          <button
+            onClick={() => navigateTo("/learner/journey")}
+            className="w-full bg-emerald-900 hover:bg-emerald-850 text-white text-xs font-bold py-3 px-4 rounded-2xl transition-all shadow-xs cursor-pointer flex items-center justify-center gap-1.5"
+          >
+            <span>View My Journey</span>
+            <ChevronRight className="h-4 w-4" />
+          </button>
+        </div>
+      </div>
+    );
+  };
+
+  // 4. Preferences Settings Card
+  const renderMobilePreferencesSettingsCard = () => {
+    return (
+      <div id="mobile-preferences-card" className="bg-white rounded-3xl border border-slate-200 p-5 space-y-4 text-left shadow-xs">
+        <div className="space-y-1">
+          <h3 className="text-sm font-bold text-slate-955 font-sans tracking-tight">Preferences</h3>
+          <p className="text-xs text-slate-500 leading-normal">
+            Customise notification reminders, data modes, and local access options.
+          </p>
+        </div>
+
+        <div className="space-y-3 pt-1">
+          {/* Notification reminders */}
+          <div className="flex items-center justify-between p-3.5 bg-slate-50/70 border border-slate-100 rounded-2xl gap-3">
+            <div className="flex items-start gap-3 min-w-0">
+              <div className="p-2 bg-emerald-50 text-emerald-800 rounded-xl shrink-0 mt-0.5">
+                <Bell className="h-4 w-4" />
+              </div>
+              <div className="min-w-0">
+                <span className="text-xs font-semibold text-slate-900 block">Notification reminders</span>
+                <span className="text-[10px] text-slate-500 font-normal leading-normal block">
+                  Alerts for lessons, assignments, and events.
+                </span>
+              </div>
+            </div>
+            <div className="shrink-0">
+              <Toggle checked={showReminders} onChange={(v) => { setShowReminders(v); showToast(`Notification reminders ${v ? 'enabled' : 'disabled'}`, 'success'); }} id="mobile-pref-reminders" />
+            </div>
+          </div>
+
+          {/* Low-bandwidth mode */}
+          <div className="flex items-center justify-between p-3.5 bg-slate-50/70 border border-slate-100 rounded-2xl gap-3">
+            <div className="flex items-start gap-3 min-w-0">
+              <div className="p-2 bg-emerald-50 text-emerald-800 rounded-xl shrink-0 mt-0.5">
+                <Zap className="h-4 w-4" />
+              </div>
+              <div className="min-w-0">
+                <span className="text-xs font-semibold text-slate-900 block">Low-bandwidth mode</span>
+                <span className="text-[10px] text-slate-500 font-normal leading-normal block">
+                  Loads lightweight materials and text summaries.
+                </span>
+              </div>
+            </div>
+            <div className="shrink-0">
+              <Toggle checked={lowBandwidth} onChange={(v) => { setLowBandwidth(v); showToast(`Low-bandwidth mode ${v ? 'enabled' : 'disabled'}`, 'success'); }} id="mobile-pref-bandwidth" />
+            </div>
+          </div>
+
+          {/* Offline packs */}
+          <div className="flex items-center justify-between p-3.5 bg-slate-50/70 border border-slate-100 rounded-2xl gap-3">
+            <div className="flex items-start gap-3 min-w-0">
+              <div className="p-2 bg-emerald-50 text-emerald-800 rounded-xl shrink-0 mt-0.5">
+                <Download className="h-4 w-4" />
+              </div>
+              <div className="min-w-0">
+                <span className="text-xs font-semibold text-slate-900 block">Offline packs</span>
+                <span className="text-[10px] text-slate-500 font-normal leading-normal block">
+                  Saved files and course packages.
+                </span>
+              </div>
+            </div>
+            <span className="bg-emerald-100/60 text-emerald-900 text-[10px] font-bold px-2.5 py-1 rounded-full border border-emerald-200/50">
+              5 packs ready
+            </span>
+          </div>
+
+          {/* Language */}
+          <div className="flex items-center justify-between p-3.5 bg-slate-50/70 border border-slate-100 rounded-2xl gap-3">
+            <div className="flex items-start gap-3 min-w-0">
+              <div className="p-2 bg-emerald-50 text-emerald-800 rounded-xl shrink-0 mt-0.5">
+                <BookOpen className="h-4 w-4" />
+              </div>
+              <div className="min-w-0">
+                <span className="text-xs font-semibold text-slate-900 block">Language</span>
+                <span className="text-[10px] text-slate-500 font-normal leading-normal block">
+                  Workspace interface language.
+                </span>
+              </div>
+            </div>
+            <span className="text-xs font-bold text-slate-700 bg-white border border-slate-200 px-3 py-1 rounded-xl">
+              English
+            </span>
+          </div>
+
+          {/* Device access */}
+          <div className="flex items-center justify-between p-3.5 bg-slate-50/70 border border-slate-100 rounded-2xl gap-3">
+            <div className="flex items-start gap-3 min-w-0">
+              <div className="p-2 bg-emerald-50 text-emerald-800 rounded-xl shrink-0 mt-0.5">
+                <Settings className="h-4 w-4" />
+              </div>
+              <div className="min-w-0">
+                <span className="text-xs font-semibold text-slate-900 block">Device access</span>
+                <span className="text-[10px] text-slate-500 font-normal leading-normal block">
+                  Keep me signed in on this device.
+                </span>
+              </div>
+            </div>
+            <div className="shrink-0">
+              <Toggle checked={autoSaveProgress} onChange={(v) => { setAutoSaveProgress(v); showToast(`Remember this device ${v ? 'enabled' : 'disabled'}`, 'success'); }} id="mobile-pref-remember" />
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  // 5. Connectivity and Access Card
+  const renderMobileConnectivityCard = () => {
+    return (
+      <div className="bg-white rounded-3xl border border-slate-200 p-5 space-y-4 text-left shadow-xs">
+        <div className="space-y-1">
+          <h3 className="text-sm font-bold text-slate-955 font-sans tracking-tight">Access and connectivity</h3>
+          <p className="text-xs text-slate-500 leading-normal font-normal">
+            Optimise your experience for low-bandwidth and offline usage.
+          </p>
+        </div>
+
+        <div className="space-y-2 pt-1">
+          {[
+            {
+              title: "Offline Centre",
+              desc: "Download packs and sync saved progress.",
+              path: "/learner/offline",
+              icon: Database,
+              color: "bg-teal-50 text-teal-800"
+            },
+            {
+              title: "Low-Bandwidth Mode",
+              desc: "Use lighter pages and text-first materials.",
+              path: "/learner/low-bandwidth",
+              icon: Zap,
+              color: "bg-emerald-50 text-emerald-800"
+            },
+            {
+              title: "Downloads",
+              desc: "Review saved files and learning packs.",
+              path: "/learner/downloads",
+              icon: Download,
+              color: "bg-teal-50 text-teal-850"
+            }
+          ].map((item, idx) => {
+            const Icon = item.icon;
+            return (
+              <button
+                key={idx}
+                onClick={() => navigateTo(item.path as any)}
+                className="w-full flex items-center justify-between p-3.5 bg-slate-50/60 hover:bg-slate-100/50 border border-slate-100 rounded-2xl transition-all cursor-pointer text-left group gap-3"
+              >
+                <div className="flex items-center gap-3.5 min-w-0">
+                  <div className={`p-2.5 rounded-xl shrink-0 ${item.color}`}>
+                    <Icon className="h-4.5 w-4.5" />
+                  </div>
+                  <div className="min-w-0 space-y-0.5">
+                    <span className="text-xs font-bold text-slate-900 block group-hover:text-emerald-950 transition-colors">
+                      {item.title}
+                    </span>
+                    <span className="text-[10px] text-slate-505 leading-normal font-normal block">
+                      {item.desc}
+                    </span>
+                  </div>
+                </div>
+                <ChevronRight className="h-4 w-4 text-slate-400 shrink-0 group-hover:translate-x-0.5 transition-transform" />
+              </button>
+            );
+          })}
+        </div>
+      </div>
+    );
+  };
+
+  // 6. Support and Learning Help Card
+  const renderMobileSupportResourcesCard = () => {
+    return (
+      <div className="bg-white rounded-3xl border border-slate-200 p-5 space-y-4 text-left shadow-xs">
+        <div className="space-y-1">
+          <h3 className="text-sm font-bold text-slate-955 font-sans tracking-tight">Support and learning help</h3>
+          <p className="text-xs text-slate-505 leading-normal font-normal">
+            Get help, read guides, view notifications, and connect with other learners.
+          </p>
+        </div>
+
+        <div className="space-y-2 pt-1">
+          {[
+            {
+              title: "Open Support",
+              desc: "Get help with your course, assessment, CPD credits, or certificate status.",
+              path: "/learner/support",
+              icon: HelpCircle
+            },
+            {
+              title: "View Notifications",
+              desc: "Review learning updates and facilitator responses.",
+              path: "/learner/notifications",
+              icon: Bell
+            },
+            {
+              title: "View Resources",
+              desc: "Open saved guides, summaries, and learning materials.",
+              path: "/learner/resources",
+              icon: BookOpen
+            },
+            {
+              title: "Community",
+              desc: "Ask questions and learn with others in your pathway.",
+              path: "/learner/community",
+              icon: Users
+            }
+          ].map((item, idx) => {
+            const Icon = item.icon;
+            return (
+              <button
+                key={idx}
+                onClick={() => navigateTo(item.path as any)}
+                className="w-full flex items-center justify-between p-3.5 bg-slate-50/60 hover:bg-slate-100/50 border border-slate-100 rounded-2xl transition-all cursor-pointer text-left group gap-3"
+              >
+                <div className="flex items-center gap-3.5 min-w-0">
+                  <div className="p-2.5 bg-emerald-50 text-emerald-800 border border-emerald-100/30 rounded-xl shrink-0">
+                    <Icon className="h-4.5 w-4.5" />
+                  </div>
+                  <div className="min-w-0 space-y-0.5">
+                    <span className="text-xs font-bold text-slate-900 block group-hover:text-emerald-955 transition-colors">
+                      {item.title}
+                    </span>
+                    <span className="text-[10px] text-slate-505 leading-normal font-normal block">
+                      {item.desc}
+                    </span>
+                  </div>
+                </div>
+                <ChevronRight className="h-4 w-4 text-slate-400 shrink-0 group-hover:translate-x-0.5 transition-transform" />
+              </button>
+            );
+          })}
+        </div>
+      </div>
+    );
+  };
+
+  // 7. Account Actions Card (including Separated destructed Sign Out)
+  const renderMobileAccountActionsCard = () => {
+    return (
+      <div className="bg-white rounded-3xl border border-slate-200 p-5 space-y-4 text-left shadow-xs">
+        <div className="space-y-1">
+          <h3 className="text-sm font-bold text-slate-955 font-sans tracking-tight">Account</h3>
+          <p className="text-xs text-slate-500 leading-normal font-normal">
+            Manage your credentials and sign-in devices.
+          </p>
+        </div>
+
+        <div className="space-y-2 pt-1">
+          {/* Profile details */}
+          <button
+            onClick={() => {
+              const el = document.getElementById("mobile-learning-identity");
+              if (el) el.scrollIntoView({ behavior: "smooth" });
+              showToast("Viewing Learning Identity card", "info");
+            }}
+            className="w-full flex items-center justify-between p-3.5 bg-slate-50/60 hover:bg-slate-100/50 border border-slate-100 rounded-2xl transition-all cursor-pointer text-left group gap-3"
+          >
+            <div className="flex items-center gap-3.5 min-w-0">
+              <div className="p-2.5 bg-slate-100 text-slate-600 rounded-xl shrink-0">
+                <User className="h-4.5 w-4.5" />
+              </div>
+              <div className="min-w-0 space-y-0.5">
+                <span className="text-xs font-bold text-slate-900 block">Profile details</span>
+                <span className="text-[10px] text-slate-505 leading-normal font-normal block">
+                  Review your name, ID, cohort, and facilitator.
+                </span>
+              </div>
+            </div>
+            <ChevronRight className="h-4 w-4 text-slate-400 shrink-0 group-hover:translate-x-0.5 transition-transform" />
+          </button>
+
+          {/* Account access */}
+          <button
+            onClick={() => showToast("Account access is securely managed by the Kano cohort administration.", "info")}
+            className="w-full flex items-center justify-between p-3.5 bg-slate-50/60 hover:bg-slate-100/50 border border-slate-100 rounded-2xl transition-all cursor-pointer text-left group gap-3"
+          >
+            <div className="flex items-center gap-3.5 min-w-0">
+              <div className="p-2.5 bg-slate-100 text-slate-600 rounded-xl shrink-0">
+                <Shield className="h-4.5 w-4.5" />
+              </div>
+              <div className="min-w-0 space-y-0.5">
+                <span className="text-xs font-bold text-slate-900 block">Account access</span>
+                <span className="text-[10px] text-slate-505 leading-normal font-normal block">
+                  Manage sign-in and device access.
+                </span>
+              </div>
+            </div>
+            <ChevronRight className="h-4 w-4 text-slate-400 shrink-0 group-hover:translate-x-0.5 transition-transform" />
+          </button>
+
+          {/* Divider space */}
+          <div className="h-1.5" />
+
+          {/* Destructive styled Sign Out */}
+          <button
+            onClick={() => setShowSignOutModal(true)}
+            aria-label="Sign out"
+            className="w-full flex items-center justify-between p-4 bg-rose-50 hover:bg-rose-100/85 border border-rose-100 rounded-2xl transition-all cursor-pointer text-left group gap-3"
+          >
+            <div className="flex items-center gap-3.5 min-w-0">
+              <div className="p-2.5 bg-white text-rose-600 rounded-xl shrink-0 shadow-xs border border-rose-100">
+                <LogOut className="h-4.5 w-4.5" />
+              </div>
+              <div className="min-w-0 space-y-0.5">
+                <span className="text-xs font-bold text-rose-700 block">Sign out</span>
+                <span className="text-[10px] text-rose-505 font-normal leading-normal block">
+                  Return to the sign-in page.
+                </span>
+              </div>
+            </div>
+            <span className="text-xs font-bold text-rose-605 group-hover:translate-x-0.5 transition-transform flex items-center gap-0.5">
+              <span>Sign out</span>
+              <ChevronRight className="h-4 w-4" />
+            </span>
           </button>
         </div>
       </div>
@@ -1662,29 +2040,20 @@ export default function LearnerProfilePage() {
             {/* 3. Learning identity highlight card */}
             {renderMobileLearningIdentityCard()}
 
-            {/* 4. Profile progress snapshot */}
-            {renderMobileProgressSnapshot()}
+            {/* 4. Pathway and progress summary */}
+            {renderMobilePathwayProgressCard()}
 
-            {/* 5. Quick actions grid */}
-            {renderMobileQuickActionsGrid()}
+            {/* 5. Preferences and access settings */}
+            {renderMobilePreferencesSettingsCard()}
 
-            {/* 6. Current learning card */}
-            {renderMobileCurrentLearningCard()}
+            {/* 6. Offline and low-bandwidth settings */}
+            {renderMobileConnectivityCard()}
 
-            {/* 7. Certificate & CPD card */}
-            {renderMobileCertCpdCard()}
+            {/* 7. Support and resources */}
+            {renderMobileSupportResourcesCard()}
 
-            {/* 8. Preferences hub */}
-            {renderMobilePreferencesHub()}
-
-            {/* 9. Offline & bandwidth card */}
-            {renderMobileOfflineBandwidthCard()}
-
-            {/* 10. Privacy & device data */}
-            {renderMobilePrivacyDeviceDataCard()}
-
-            {/* 11. Support and account actions */}
-            {renderMobileSupportAccountCard()}
+            {/* 8. Account actions with destructive Sign Out */}
+            {renderMobileAccountActionsCard()}
 
             {/* Detailed Scroll-Target Preference Sections */}
             <div className="pt-6 border-t border-slate-200/60 space-y-5">

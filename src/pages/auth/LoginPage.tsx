@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useRoute } from "../../context/RouteContext";
-import { Eye, EyeOff, ShieldCheck, KeyRound, HelpCircle, ArrowRight } from "lucide-react";
+import { Eye, EyeOff, ShieldCheck, KeyRound, HelpCircle, ArrowRight, X } from "lucide-react";
 
 type RoleType = "learner" | "facilitator" | "admin";
 
@@ -12,6 +12,7 @@ export function LoginPage() {
   const [rememberMe, setRememberMe] = useState(false);
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [showAdminModal, setShowAdminModal] = useState(false);
 
   // Auto-detect role preselection from location hash
   useEffect(() => {
@@ -48,7 +49,7 @@ export function LoginPage() {
         showToast("Logged in successfully as Cohort Facilitator");
         navigateTo("/facilitator/dashboard");
       } else if (role === "admin") {
-        setError("Programme Team administration requires multi-factor verification. This feature is restricted in the preview environment.");
+        setShowAdminModal(true);
       }
     }, 700);
   };
@@ -112,13 +113,34 @@ export function LoginPage() {
           <input
             type="text"
             value={emailOrId}
-            onChange={(e) => setEmailOrId(e.target.value)}
+            onChange={(e) => {
+              const val = e.target.value;
+              setEmailOrId(val);
+              const valLower = val.toLowerCase().trim();
+              if (valLower.includes("facilitator") || valLower.includes("teacher")) {
+                setRole("facilitator");
+              } else if (valLower.includes("admin") || valLower.includes("prog") || valLower.includes("coordinator")) {
+                setRole("admin");
+              } else {
+                setRole("learner");
+              }
+            }}
             placeholder="Email address or learner ID"
             className="w-full px-3.5 py-3 text-xs bg-white border border-slate-200 rounded-xl focus:outline-hidden focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600/30 text-slate-900 placeholder-slate-400 font-medium transition-all"
           />
           {role === "learner" && (
             <span className="text-[10px] text-slate-450 mt-1 block font-sans">
-              Example: SUST-LRN-0442
+              Example: <span className="font-mono font-semibold text-slate-600">SUST-LRN-0442</span> or any email
+            </span>
+          )}
+          {role === "facilitator" && (
+            <span className="text-[10px] text-emerald-700 mt-1 block font-sans font-medium">
+              Detected Facilitator workspace role
+            </span>
+          )}
+          {role === "admin" && (
+            <span className="text-[10px] text-teal-700 mt-1 block font-sans font-medium">
+              Detected Programme Team workspace role
             </span>
           )}
         </div>
@@ -155,18 +177,50 @@ export function LoginPage() {
           </div>
         </div>
 
-        {/* Remember this device checkbox */}
-        <div className="flex items-center pt-1">
-          <input
-            id="remember-me"
-            type="checkbox"
-            checked={rememberMe}
-            onChange={(e) => setRememberMe(e.target.checked)}
-            className="h-4.5 w-4.5 rounded-md border-slate-300 text-emerald-900 focus:ring-emerald-600/20 cursor-pointer accent-[#005C45]"
-          />
-          <label htmlFor="remember-me" className="ml-2.5 text-xs text-slate-600 cursor-pointer select-none font-medium">
-            Remember this device
-          </label>
+        {/* Remember this device checkbox & Subtle Access Selector */}
+        <div className="flex flex-col gap-4 pt-2 border-t border-slate-100">
+          <div className="flex items-center">
+            <input
+              id="remember-me"
+              type="checkbox"
+              checked={rememberMe}
+              onChange={(e) => setRememberMe(e.target.checked)}
+              className="h-4.5 w-4.5 rounded-md border-slate-300 text-emerald-900 focus:ring-emerald-600/20 cursor-pointer accent-[#005C45]"
+            />
+            <label htmlFor="remember-me" className="ml-2.5 text-xs text-slate-600 cursor-pointer select-none font-medium">
+              Remember this device
+            </label>
+          </div>
+
+          <div className="space-y-2 pt-2">
+            <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider font-sans">
+              Continue as
+            </label>
+            <div className="grid grid-cols-3 bg-slate-100 p-1 rounded-2xl border border-slate-200/20 min-h-[46px] items-center">
+              {(["learner", "facilitator", "admin"] as RoleType[]).map((r) => (
+                <button
+                  key={r}
+                  type="button"
+                  onClick={() => {
+                    setRole(r);
+                    setError("");
+                  }}
+                  className={`text-xs font-bold py-2.5 px-3 rounded-xl transition-all duration-200 cursor-pointer text-center min-h-[38px] flex items-center justify-center border-none ${
+                    role === r 
+                      ? "bg-[#005C45] text-white shadow-xs" 
+                      : "text-slate-600 hover:text-slate-800 bg-transparent hover:bg-slate-200/30"
+                  }`}
+                >
+                  {r === "learner" && "Learner"}
+                  {r === "facilitator" && "Facilitator"}
+                  {r === "admin" && "Programme Team"}
+                </button>
+              ))}
+            </div>
+            <p className="text-[10.5px] text-slate-450 leading-normal font-sans font-medium">
+              Your workspace opens after sign-in based on your account access.
+            </p>
+          </div>
         </div>
 
         {/* Submit button */}
@@ -184,12 +238,18 @@ export function LoginPage() {
               Signing In...
             </span>
           ) : (
-            <span className="inline-flex items-center gap-1.5">
+            <span className="inline-flex items-center gap-1.5 font-bold">
               <KeyRound className="h-4 w-4 text-emerald-200" />
-              Sign In
+              {role === "learner" && "Sign in to continue"}
+              {role === "facilitator" && "Sign in to review"}
+              {role === "admin" && "Sign in to monitor"}
             </span>
           )}
         </button>
+        
+        <p className="text-[10.5px] text-slate-400 mt-3 text-center leading-relaxed font-sans font-medium">
+          Pro-tip: Type <span className="font-mono font-bold text-[#005C45] bg-emerald-50/70 px-1 py-0.5 rounded-sm">facilitator</span> or <span className="font-mono font-bold text-[#005C45] bg-emerald-50/70 px-1 py-0.5 rounded-sm">admin</span> in the email field to dynamically view and access different workspaces.
+        </p>
       </form>
 
       {/* Public lookup info link */}
@@ -217,33 +277,46 @@ export function LoginPage() {
             Create an account
           </button>
         </div>
+      </div>
 
-        {/* Subtle Demo Role Selector */}
-        <div className="pt-3 border-t border-slate-100/60">
-          <span className="text-[11px] text-slate-450 font-medium block mb-1.5">Choose demo access</span>
-          <div className="inline-flex gap-2 bg-slate-50/50 p-1 rounded-xl border border-slate-200/40">
-            {(["learner", "facilitator", "admin"] as RoleType[]).map((r) => (
+      {/* Programme Team Demo Alert Modal */}
+      {showAdminModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/45 backdrop-blur-xs">
+          <div className="w-full max-w-md bg-white rounded-3xl shadow-xl border border-slate-150 overflow-hidden text-left transform transition-all animate-in fade-in zoom-in-95 duration-150">
+            <div className="p-6 space-y-4">
+              <div className="flex items-center justify-between">
+                <div className="h-10 w-10 rounded-xl bg-emerald-50 text-[#005C45] flex items-center justify-center font-bold">
+                  <ShieldCheck className="h-5 w-5" />
+                </div>
+                <button 
+                  type="button" 
+                  onClick={() => setShowAdminModal(false)}
+                  className="text-slate-400 hover:text-slate-600 p-1.5 rounded-lg hover:bg-slate-50 cursor-pointer border-none"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              </div>
+              
+              <div className="space-y-1.5">
+                <h3 className="text-base font-bold text-slate-900 font-heading">
+                  Programme Workspace Prepared
+                </h3>
+                <p className="text-xs text-slate-600 leading-relaxed font-normal">
+                  Programme workspace preview is prepared for this demo. Connect the final programme dashboard during production setup.
+                </p>
+              </div>
+
               <button
-                key={r}
                 type="button"
-                onClick={() => {
-                  setRole(r);
-                  setError("");
-                }}
-                className={`text-[10px] font-semibold px-2.5 py-1 rounded-lg transition-all cursor-pointer ${
-                  role === r 
-                    ? "bg-[#005C45] text-white shadow-3xs" 
-                    : "text-slate-600 hover:text-slate-800 bg-transparent"
-                }`}
+                onClick={() => setShowAdminModal(false)}
+                className="w-full h-11 bg-[#005C45] hover:bg-[#003B2C] text-white rounded-xl text-xs font-semibold cursor-pointer transition-all flex items-center justify-center border-none"
               >
-                {r === "learner" && "Learner"}
-                {r === "facilitator" && "Facilitator"}
-                {r === "admin" && "Programme Team"}
+                Close Preview
               </button>
-            ))}
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }
