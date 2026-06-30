@@ -100,7 +100,7 @@ export function LmsSimulatorWidget() {
       {/* Floating Action Button */}
       <button
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-20 right-4 sm:bottom-6 sm:right-6 z-40 bg-emerald-700 hover:bg-emerald-800 text-white rounded-full px-4.5 py-3 flex items-center gap-2 shadow-xl border border-emerald-600 font-sans text-xs font-semibold select-none transition-all active:scale-95 cursor-pointer"
+        className="fixed bottom-20 right-4 sm:bottom-6 sm:right-6 z-40 bg-emerald-700 hover:bg-emerald-800 text-white rounded-full px-4.5 py-3 hidden md:flex items-center gap-2 shadow-xl border border-emerald-600 font-sans text-xs font-semibold select-none transition-all active:scale-95 cursor-pointer"
         aria-label="Open LMS Flow Rules Simulator"
       >
         <Sliders className="h-4 w-4" />

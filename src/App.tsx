@@ -123,7 +123,193 @@ function AppContent() {
     resolvedPath = "/facilitator";
   }
 
-  return (
+  const pageContent = (() => {
+    switch (resolvedPath) {
+      case "/facilitator":
+        return (
+          <FacilitatorRouterPage />
+        );
+      case "/learner":
+      case "/learner/dashboard":
+        return (
+          <LearnerDashboardPage />
+        );
+      case "/learner/downloads":
+        return (
+          <LearnerDownloadsPage />
+        );
+      case "/learner/assessments":
+      case "/learner/assessment":
+      case "/learner/my-assessments":
+      case "/learner/assessment-overview":
+        return (
+          <LearnerAssessmentsPage />
+        );
+      case "/learner/assessments/work-readiness-assignment":
+      case "/learner/assessments/work-readiness-assessment":
+        return (
+          <LearnerAssessmentPage />
+        );
+      case "/learner/assessments/work-readiness-assessment/attempt":
+        return (
+          <LearnerAssessmentAttemptPage />
+        );
+      case "/learner/assessments/work-readiness-assessment/review-submit":
+        return (
+          <LearnerAssessmentReviewPage />
+        );
+      case "/learner/assessments/work-readiness-assessment/submitted":
+        return (
+          <LearnerSubmittedPage />
+        );
+      case "/learner/assessments/agri-logistics-quiz/attempt":
+        return (
+          <LearnerQuizAttemptPage />
+        );
+      case "/learner/low-bandwidth":
+        return (
+          <LearnerLowBandwidthPage />
+        );
+      case "/learner/offline":
+        return (
+          <LearnerOfflinePage />
+        );
+      case "/learner/live-sessions":
+        return (
+          <LearnerLiveSessionsHubPage />
+        );
+      case "/learner/live-sessions/interview-practice-clinic":
+        return (
+          <LearnerLiveSessionPage />
+        );
+      case "/learner/courses/work-readiness-foundation/modules/interview-preparation/locked":
+        return (
+          <LearnerLockedModulePage />
+        );
+      case "/learner/checkpoints/interview-preparation/review":
+        return (
+          <LearnerCheckpointReviewPage />
+        );
+       case "/learner/assessments/workplace-communication/result":
+      case "/learner/assessments/work-readiness-assessment/result":
+      case "/learner/assessments/work-readiness-assignment/result":
+      case "/learner/assessments/result":
+      case "/learner/assessment-result":
+      case "/learner/results/work-readiness-assignment":
+        return (
+          <LearnerAssessmentResultPage />
+        );
+      case "/learner/journey":
+        return (
+          <LearnerJourneyPage />
+        );
+      case "/learner/certificates":
+      case "/learner/cpd-record":
+        return (
+          <LearnerCertificatesPage />
+        );
+      case "/learner/certificates/work-readiness-certificate":
+        return (
+          <LearnerCertificateDetailPage />
+        );
+      case "/learner/community":
+        return (
+          <LearnerCommunityPage />
+        );
+      case "/learner/community/interview-preparation-discussion":
+        return (
+          <LearnerCommunityDiscussionPage />
+        );
+      case "/learner/support":
+        return (
+          <LearnerSupportPage />
+        );
+      case "/learner/support/certificate-readiness-request":
+        return (
+          <LearnerSupportRequestPage />
+        );
+      case "/learner/profile":
+        return (
+          <LearnerProfilePage />
+        );
+      case "/learner/notifications":
+        return (
+          <LearnerNotificationsPage />
+        );
+      case "/learner/resources":
+        return (
+          <LearnerResourcesPage />
+        );
+      case "/learner/resources/low-bandwidth-reading-version":
+        return (
+          <LearnerResourceViewerPage />
+        );
+      case "/learner/courses":
+        return (
+          <LearnerCoursesPage />
+        );
+      case "/learner/courses/digital-readiness-basics":
+        return (
+          <LearnerDigitalReadinessPage />
+        );
+      case "/learner/courses/work-readiness-foundation":
+        return (
+          <LearnerCourseDetailPage />
+        );
+      case "/learner/courses/work-readiness-foundation/lessons/preparing-for-interviews":
+      case "/learner/lessons/preparing-for-interviews":
+      case "/learner/lesson/preparing-for-interviews":
+      case "/learner/courses/work-readiness-foundation/preparing-for-interviews":
+        return (
+          <LearnerLessonPage />
+        );
+      case "/login":
+        return (
+          <AuthLayout>
+            <LoginPage />
+          </AuthLayout>
+        );
+      case "/signup":
+      case "/register":
+        return (
+          <AuthLayout>
+            <SignupPage />
+          </AuthLayout>
+        );
+      case "/onboarding":
+        return (
+          <AuthLayout>
+            <OnboardingPage />
+          </AuthLayout>
+        );
+      case "/about":
+      case "/contact":
+      case "/privacy":
+      case "/terms":
+      case "/accessibility":
+      case "/help":
+        return (
+          <PublicLayout>
+            <PublicInfoPage />
+          </PublicLayout>
+        );
+      case "/verify-certificate":
+        return (
+          <PublicLayout>
+            <PublicCertificateVerificationPage />
+          </PublicLayout>
+        );
+      case "/":
+      default:
+        return (
+          <PublicLayout>
+            <PublicHomePage />
+          </PublicLayout>
+        );
+    }
+  })();
+
+  const animatedPage = (
     <AnimatePresence mode="wait">
       <motion.div
         key={resolvedPath}
@@ -133,194 +319,20 @@ function AppContent() {
         transition={{ duration: 0.2, ease: "easeInOut" }}
         className="w-full h-full"
       >
-        {(() => {
-          switch (resolvedPath) {
-            case "/facilitator":
-              return (
-                <FacilitatorRouterPage />
-              );
-            case "/learner":
-            case "/learner/dashboard":
-              return (
-                <LearnerDashboardPage />
-              );
-            case "/learner/downloads":
-              return (
-                <LearnerDownloadsPage />
-              );
-            case "/learner/assessments":
-            case "/learner/assessment":
-            case "/learner/my-assessments":
-            case "/learner/assessment-overview":
-              return (
-                <LearnerAssessmentsPage />
-              );
-            case "/learner/assessments/work-readiness-assignment":
-            case "/learner/assessments/work-readiness-assessment":
-              return (
-                <LearnerAssessmentPage />
-              );
-            case "/learner/assessments/work-readiness-assessment/attempt":
-              return (
-                <LearnerAssessmentAttemptPage />
-              );
-            case "/learner/assessments/work-readiness-assessment/review-submit":
-              return (
-                <LearnerAssessmentReviewPage />
-              );
-            case "/learner/assessments/work-readiness-assessment/submitted":
-              return (
-                <LearnerSubmittedPage />
-              );
-            case "/learner/assessments/agri-logistics-quiz/attempt":
-              return (
-                <LearnerQuizAttemptPage />
-              );
-            case "/learner/low-bandwidth":
-              return (
-                <LearnerLowBandwidthPage />
-              );
-            case "/learner/offline":
-              return (
-                <LearnerOfflinePage />
-              );
-            case "/learner/live-sessions":
-              return (
-                <LearnerLiveSessionsHubPage />
-              );
-            case "/learner/live-sessions/interview-practice-clinic":
-              return (
-                <LearnerLiveSessionPage />
-              );
-            case "/learner/courses/work-readiness-foundation/modules/interview-preparation/locked":
-              return (
-                <LearnerLockedModulePage />
-              );
-            case "/learner/checkpoints/interview-preparation/review":
-              return (
-                <LearnerCheckpointReviewPage />
-              );
-             case "/learner/assessments/workplace-communication/result":
-            case "/learner/assessments/work-readiness-assessment/result":
-            case "/learner/assessments/work-readiness-assignment/result":
-            case "/learner/assessments/result":
-            case "/learner/assessment-result":
-            case "/learner/results/work-readiness-assignment":
-              return (
-                <LearnerAssessmentResultPage />
-              );
-            case "/learner/journey":
-              return (
-                <LearnerJourneyPage />
-              );
-            case "/learner/certificates":
-            case "/learner/cpd-record":
-              return (
-                <LearnerCertificatesPage />
-              );
-            case "/learner/certificates/work-readiness-certificate":
-              return (
-                <LearnerCertificateDetailPage />
-              );
-            case "/learner/community":
-              return (
-                <LearnerCommunityPage />
-              );
-            case "/learner/community/interview-preparation-discussion":
-              return (
-                <LearnerCommunityDiscussionPage />
-              );
-            case "/learner/support":
-              return (
-                <LearnerSupportPage />
-              );
-            case "/learner/support/certificate-readiness-request":
-              return (
-                <LearnerSupportRequestPage />
-              );
-            case "/learner/profile":
-              return (
-                <LearnerProfilePage />
-              );
-            case "/learner/notifications":
-              return (
-                <LearnerNotificationsPage />
-              );
-            case "/learner/resources":
-              return (
-                <LearnerResourcesPage />
-              );
-            case "/learner/resources/low-bandwidth-reading-version":
-              return (
-                <LearnerResourceViewerPage />
-              );
-            case "/learner/courses":
-              return (
-                <LearnerCoursesPage />
-              );
-            case "/learner/courses/digital-readiness-basics":
-              return (
-                <LearnerDigitalReadinessPage />
-              );
-            case "/learner/courses/work-readiness-foundation":
-              return (
-                <LearnerCourseDetailPage />
-              );
-            case "/learner/courses/work-readiness-foundation/lessons/preparing-for-interviews":
-            case "/learner/lessons/preparing-for-interviews":
-            case "/learner/lesson/preparing-for-interviews":
-            case "/learner/courses/work-readiness-foundation/preparing-for-interviews":
-              return (
-                <LearnerLessonPage />
-              );
-            case "/login":
-              return (
-                <AuthLayout>
-                  <LoginPage />
-                </AuthLayout>
-              );
-            case "/signup":
-            case "/register":
-              return (
-                <AuthLayout>
-                  <SignupPage />
-                </AuthLayout>
-              );
-            case "/onboarding":
-              return (
-                <AuthLayout>
-                  <OnboardingPage />
-                </AuthLayout>
-              );
-            case "/about":
-            case "/contact":
-            case "/privacy":
-            case "/terms":
-            case "/accessibility":
-            case "/help":
-              return (
-                <PublicLayout>
-                  <PublicInfoPage />
-                </PublicLayout>
-              );
-            case "/verify-certificate":
-              return (
-                <PublicLayout>
-                  <PublicCertificateVerificationPage />
-                </PublicLayout>
-              );
-            case "/":
-            default:
-              return (
-                <PublicLayout>
-                  <PublicHomePage />
-                </PublicLayout>
-              );
-          }
-        })()}
+        {pageContent}
       </motion.div>
     </AnimatePresence>
   );
+
+  if (resolvedPath.startsWith("/learner")) {
+    return (
+      <LearnerLayout>
+        {animatedPage}
+      </LearnerLayout>
+    );
+  }
+
+  return animatedPage;
 }
 
 export default function App() {

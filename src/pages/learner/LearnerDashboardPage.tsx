@@ -38,6 +38,7 @@ import { LearnerSidebar } from "../../components/navigation/LearnerSidebar";
 import { LearnerMobileNav } from "../../components/navigation/LearnerMobileNav";
 import { LearnerContextHint } from "../../components/learner/LearnerContextHint";
 import { LearnerSupportCard } from "../../components/learner/LearnerSupportCard";
+import { AppMobileHeader } from "../../components/navigation/AppMobileHeader";
 
 export function LearnerDashboardPage() {
   const { navigateTo } = useRoute();
@@ -1115,30 +1116,8 @@ export function LearnerDashboardPage() {
   // TABLET EXPERIENCE (hidden md:block lg:hidden)
   // -------------------------------------------------------------------------
   const TabletLearnerDashboard = () => (
-    <div id="tablet-dashboard" className="hidden md:block lg:hidden min-h-screen bg-slate-50 text-slate-950 pb-28">
-      {/* Compact Learner Header */}
-      <header className="h-16 bg-white border-b border-slate-200 px-6 flex items-center justify-between sticky top-0 z-40">
-        <div className="flex items-center gap-2">
-          <span className="font-semibold text-sm tracking-tight text-slate-900">
-            SUSTAIN <span className="text-emerald-800">LMS</span>
-          </span>
-          <Badge className="bg-slate-100 text-slate-700 text-[10px] px-1.5 py-0 border-0 font-semibold">Tablet</Badge>
-        </div>
-
-        <div className="flex items-center gap-4">
-          <button onClick={() => handleAction("/learner/notifications")} className="p-1 text-slate-500 relative">
-            <Bell className="h-5 w-5" />
-            <span className="absolute top-0.5 right-0.5 h-1.5 w-1.5 rounded-full bg-emerald-700" />
-          </button>
-          <button onClick={() => handleAction("/learner/support")} className="p-1 text-slate-500">
-            <HelpCircle className="h-5 w-5" />
-          </button>
-          <div className="h-7 w-px bg-slate-200" />
-          <div onClick={() => handleAction("/learner/profile")} className="h-8 w-8 bg-emerald-900 text-white font-semibold rounded-full flex items-center justify-center cursor-pointer">
-            AM
-          </div>
-        </div>
-      </header>
+    <div id="tablet-dashboard" className="hidden md:block lg:hidden min-h-screen bg-slate-50 text-slate-950 pb-28 pt-16">
+      <AppMobileHeader moduleType="learner" title="SUSTAIN LMS" />
 
       {/* Main Content stacked cleanly */}
       <div className="max-w-4xl mx-auto px-5 py-6 space-y-6 text-left">
@@ -1174,25 +1153,8 @@ export function LearnerDashboardPage() {
   // MOBILE EXPERIENCE (md:hidden)
   // -------------------------------------------------------------------------
   const MobileLearnerDashboard = () => (
-    <div id="mobile-dashboard" className="md:hidden min-h-screen bg-slate-50 text-slate-950 pb-24">
-      {/* Compact Mobile Header */}
-      <header className="h-14 bg-white border-b border-slate-200 px-4 flex items-center justify-between sticky top-0 z-40">
-        <span className="font-semibold text-sm tracking-tight text-slate-900">
-          SUSTAIN <span className="text-emerald-800">LMS</span>
-        </span>
-        <div className="flex items-center gap-3">
-          <button onClick={() => handleAction("/learner/notifications")} className="p-1 text-slate-500 relative">
-            <Bell className="h-4.5 w-4.5" />
-            <span className="absolute top-0 right-0 h-1 w-1 rounded-full bg-emerald-700" />
-          </button>
-          <button onClick={() => handleAction("/learner/support")} className="p-1 text-slate-500">
-            <HelpCircle className="h-4.5 w-4.5" />
-          </button>
-          <div onClick={() => handleAction("/learner/profile")} className="h-7 w-7 bg-emerald-900 text-white font-semibold text-xs rounded-full flex items-center justify-center cursor-pointer">
-            AM
-          </div>
-        </div>
-      </header>
+    <div id="mobile-dashboard" className="md:hidden min-h-screen bg-slate-50 text-slate-950 pb-24 pt-16">
+      <AppMobileHeader moduleType="learner" title="SUSTAIN LMS" />
 
       {/* Mobile Stacked Body */}
       <div className="px-4 py-5 space-y-5 text-left">

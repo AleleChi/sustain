@@ -93,3 +93,35 @@
   }
 }
 
+/* =========================================================================
+   Sustain LMS Global Layout Overrides
+   Hides duplicate page-level navigation elements when wrapped inside
+   the global LearnerLayout and FacilitatorLayout, without altering
+   any grid, flex, table, or typography structures.
+   ========================================================================= */
+
+/* Hide duplicate/nested sidebars, headers, and bottom navs inside main page components */
+#learner-layout main aside,
+#learner-layout main header,
+#learner-layout main #learner-mobile-nav,
+#learner-layout main #facilitator-mobile-nav,
+#facilitator-layout main aside,
+#facilitator-layout main header,
+#facilitator-layout main #learner-mobile-nav,
+#facilitator-layout main #facilitator-mobile-nav,
+main aside,
+main header,
+main [id*="sidebar"],
+main [id*="mobile-nav"] {
+  display: none !important;
+}
+
+/* Ensure that inner scrollable layouts inside pages don't double scroll and inherit clean padding */
+#learner-layout main main,
+#facilitator-layout main main {
+  overflow: visible !important;
+  height: auto !important;
+  min-height: auto !important;
+  padding: 0 !important;
+}
+

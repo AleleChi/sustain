@@ -385,7 +385,7 @@ function MobileHeroCard({ handleAction }: { handleAction: (msg: string, path?: s
 
 function MobileQuickStatsGrid() {
   return (
-    <div id="mobile-certificates-quick-stats" className="grid grid-cols-2 gap-3">
+    <div id="mobile-certificates-quick-stats" className="grid grid-cols-1 min-[370px]:grid-cols-2 gap-3">
       {/* Card 1 */}
       <div className="bg-white rounded-2xl border border-slate-200/80 shadow-xs p-4 flex flex-col justify-between min-h-[110px] text-left">
         <span className="text-[9px] text-slate-400 font-bold uppercase tracking-wider block">Certificate Status</span>

@@ -218,10 +218,6 @@ export function FacilitatorRouterPage() {
     );
   };
 
-  if (currentPath === "/facilitator/reports" || currentPath.startsWith("/facilitator/reports")) {
-    return <FacilitatorReportsPage />;
-  }
-
   return (
     <FacilitatorLayout
       headerTitle={currentPath.startsWith("/facilitator/cohorts") ? "Kano Youth Employability Cohort 02" : undefined}

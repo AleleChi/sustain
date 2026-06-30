@@ -7,7 +7,9 @@ interface SustainPreloaderProps {
 export function SustainPreloader({ onComplete }: SustainPreloaderProps) {
   const [progress, setProgress] = useState(0);
   const [caption, setCaption] = useState("Preparing your learning pathway");
-  const [isVisible, setIsVisible] = useState(true);
+  const [isBrandVisible, setIsBrandVisible] = useState(false);
+  const [isPathwayVisible, setIsPathwayVisible] = useState(false);
+  const [isExiting, setIsExiting] = useState(false);
   const [isShortTransition, setIsShortTransition] = useState(false);
 
   useEffect(() => {
@@ -15,73 +17,108 @@ export function SustainPreloader({ onComplete }: SustainPreloaderProps) {
     const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     if (prefersReduced) {
-      // Reduced motion fallback: Show static loader for 800ms
+      // Reduced motion fallback: Show static loader for 800ms, then fade out smoothly
       setProgress(100);
       setCaption("Your pathway is ready.");
-      const timer = setTimeout(() => {
-        setIsVisible(false);
-        setTimeout(() => {
+      setIsBrandVisible(true);
+      setIsPathwayVisible(true);
+      
+      const exitTimer = setTimeout(() => {
+        setIsExiting(true);
+        const completeTimer = setTimeout(() => {
           sessionStorage.setItem("sustain_preloader_seen", "true");
           onComplete();
-        }, 300); // Fade out duration
+        }, 500); // Wait for fade-out
+        return () => clearTimeout(completeTimer);
       }, 800);
-      return () => clearTimeout(timer);
+      return () => clearTimeout(exitTimer);
     }
 
     if (isSeen) {
-      // Page refresh/revisit in same session: shorter 700ms soft transition
+      // Page refresh/revisit in same session: shorter 700ms soft transition, then fade out smoothly
       setIsShortTransition(true);
       setProgress(100);
       setCaption("Your pathway is ready.");
-      const timer = setTimeout(() => {
-        setIsVisible(false);
-        setTimeout(() => {
+      setIsBrandVisible(true);
+      
+      const exitTimer = setTimeout(() => {
+        setIsExiting(true);
+        const completeTimer = setTimeout(() => {
           onComplete();
-        }, 300); // Fade out
+        }, 500); // Wait for fade-out
+        return () => clearTimeout(completeTimer);
       }, 700);
-      return () => clearTimeout(timer);
+      return () => clearTimeout(exitTimer);
     }
 
-    // First visit in session: full premium 2.8s loader
-    const duration = 2800; // 2.8 seconds
-    const intervalTime = 20;
-    const steps = duration / intervalTime;
-    let currentStep = 0;
+    // First visit in session: exact timeline mapping from 0ms to 3000ms
+    const intervalTime = 10; // High precision 10ms intervals
+    let elapsed = 0;
+    let brandVisible = false;
+    let pathwayVisible = false;
 
     const timer = setInterval(() => {
-      currentStep++;
-      const pct = Math.min((currentStep / steps) * 100, 100);
-      setProgress(pct);
+      elapsed += intervalTime;
 
-      // Support text sequence over time (0% to 100%)
-      if (pct < 25) {
+      // Brand fade in at 300ms
+      if (elapsed >= 300 && !brandVisible) {
+        brandVisible = true;
+        setIsBrandVisible(true);
+      }
+
+      // Pathway begins drawing at 600ms
+      if (elapsed >= 600 && !pathwayVisible) {
+        pathwayVisible = true;
+        setIsPathwayVisible(true);
+      }
+
+      // Compute progress & captions based on precise milestone timings
+      if (elapsed < 600) {
+        setProgress(0);
+        setCaption("Preparing your learning pathway");
+      } else if (elapsed >= 600 && elapsed < 1100) {
+        // Learn (completes at 1100ms)
+        const factor = (elapsed - 600) / 500;
+        setProgress(factor * 33);
         setCaption("Checking assigned courses");
-      } else if (pct < 50) {
+      } else if (elapsed >= 1100 && elapsed < 1600) {
+        // Submit (completes at 1600ms)
+        const factor = (elapsed - 1100) / 500;
+        setProgress(33 + factor * 33);
         setCaption("Loading assessment progress");
-      } else if (pct < 75) {
+      } else if (elapsed >= 1600 && elapsed < 2100) {
+        // Review (completes at 2100ms)
+        const factor = (elapsed - 1600) / 500;
+        setProgress(66 + factor * 34);
         setCaption("Preparing CPD record");
-      } else if (pct < 90) {
+      } else if (elapsed >= 2100 && elapsed < 2800) {
+        // Certify/Workspace (completes Certify at 2600ms, then prepares workspace until 2800ms)
+        if (elapsed < 2600) {
+          const factor = (elapsed - 2100) / 500;
+          setProgress(Math.min(75 + factor * 25, 100));
+        } else {
+          setProgress(100);
+        }
         setCaption("Opening your workspace");
       } else {
+        // Final state from 2800ms to 3000ms
+        setProgress(100);
         setCaption("Your pathway is ready.");
       }
 
-      if (currentStep >= steps) {
+      // At 3000ms, start exit transition
+      if (elapsed >= 3000) {
         clearInterval(timer);
+        setIsExiting(true);
         setTimeout(() => {
-          setIsVisible(false);
-          setTimeout(() => {
-            sessionStorage.setItem("sustain_preloader_seen", "true");
-            onComplete();
-          }, 300); // Fade out
-        }, 300); // Hold final state for 300ms
+          sessionStorage.setItem("sustain_preloader_seen", "true");
+          onComplete();
+        }, 500); // Fade out duration matches transition-opacity duration-500
       }
     }, intervalTime);
 
     return () => clearInterval(timer);
   }, [onComplete]);
-
-  if (!isVisible) return null;
 
   return (
     <div
@@ -89,7 +126,9 @@ export function SustainPreloader({ onComplete }: SustainPreloaderProps) {
       aria-label="Loading SUSTAIN LMS"
       role="status"
       aria-live="polite"
-      className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-gradient-to-b from-[#002B20] via-[#003C2D] to-[#004A37] text-white overflow-hidden transition-opacity duration-300 select-none"
+      className={`fixed inset-0 z-[100] flex flex-col items-center justify-center bg-gradient-to-b from-[#002B20] via-[#003C2D] to-[#004A37] text-white overflow-hidden transition-opacity duration-500 ease-in-out select-none ${
+        isExiting ? "opacity-0 pointer-events-none" : "opacity-100"
+      }`}
     >
       {/* Soft background radial highlights */}
       <div className="absolute top-0 right-0 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none animate-pulse duration-[8000ms]" />
@@ -97,25 +136,29 @@ export function SustainPreloader({ onComplete }: SustainPreloaderProps) {
 
       <div className="w-full max-w-md px-8 text-center space-y-10 relative z-10">
         {/* Brand Header */}
-        <div className="space-y-2">
-          <h1 className="text-3xl font-extrabold tracking-tight font-heading text-white flex items-center justify-center gap-2">
+        <div className={`space-y-2 transition-all duration-700 transform ${
+          isBrandVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+        }`}>
+          <h1 className="text-3xl font-semibold tracking-tight font-heading text-white flex items-center justify-center gap-2">
             <span className="w-2.5 h-6 bg-emerald-400 rounded-sm inline-block"></span>
-            SUSTAIN <span className="font-light text-emerald-300 text-2xl">LMS</span>
+            SUSTAIN <span className="font-light text-emerald-300 text-2xl font-heading">LMS</span>
           </h1>
-          <p className="text-[10px] font-bold text-emerald-400/85 uppercase tracking-widest font-mono">
-            Sustained Learning Pathways
+          <p className="text-xs font-medium text-emerald-300/85 font-sans">
+            Sustained learning pathways
           </p>
         </div>
 
         {/* Pathway Line with 4 Milestone Dots */}
         {!isShortTransition && (
-          <div className="relative py-4 max-w-xs mx-auto">
+          <div className={`relative py-4 max-w-xs mx-auto transition-all duration-700 transform ${
+            isPathwayVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+          }`}>
             {/* Background connector line */}
             <div className="absolute top-[22px] left-2 right-2 h-[2px] bg-emerald-950/70 rounded-full" />
             
             {/* Dynamic filled progress line */}
             <div
-              className="absolute top-[22px] left-2 h-[2px] bg-emerald-450 rounded-full transition-all duration-75 ease-out bg-emerald-400"
+              className="absolute top-[22px] left-2 h-[2px] bg-emerald-400 rounded-full transition-all duration-75 ease-out"
               style={{ width: `calc(${progress}% - 12px)` }}
             />
 
@@ -142,8 +185,8 @@ export function SustainPreloader({ onComplete }: SustainPreloaderProps) {
                       )}
                     </div>
                     <span
-                      className={`text-[9px] font-bold tracking-wider font-heading transition-colors duration-300 ${
-                        isActive ? "text-emerald-300" : "text-emerald-800"
+                      className={`text-[10px] font-medium tracking-wide font-sans transition-colors duration-300 ${
+                        isActive ? "text-emerald-200 font-semibold" : "text-emerald-800"
                       }`}
                     >
                       {m.name}
@@ -167,15 +210,15 @@ export function SustainPreloader({ onComplete }: SustainPreloaderProps) {
           </div>
 
           {!isShortTransition && (
-            <div className="flex items-center justify-center gap-1.5 font-mono text-[9px] font-bold text-emerald-400 bg-emerald-950/45 px-3 py-1 rounded-full border border-emerald-900/35 w-fit mx-auto">
+            <div className="flex items-center justify-center gap-1.5 font-sans text-xs font-medium text-emerald-300 bg-emerald-950/45 px-3 py-1 rounded-full border border-emerald-900/35 w-fit mx-auto">
               <span>{Math.round(progress)}%</span>
             </div>
           )}
         </div>
 
         {/* Footnote */}
-        <div className="text-[9px] text-emerald-400/40 tracking-widest font-mono font-medium pt-4">
-          LESSONS • ASSESSMENTS • CPD • CERTIFICATES
+        <div className="text-[10px] text-emerald-400/50 font-sans font-medium pt-4">
+          Lessons, assessments, CPD and certificates in one clear flow.
         </div>
       </div>
     </div>

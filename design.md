@@ -320,8 +320,56 @@ The system must compile flawlessly and look magnificent across all standard devi
     *   Loader should appear once per session.
     *   Loader duration should be calm: around 2.6–3 seconds on first load.
     *   Reduced motion must be supported.
+*   **Mobile-First Navigation Pattern Guidelines:**
+    *   Learner and Facilitator modules must include a consistent mobile-first top navigation pattern.
+    *   This consists of a fixed top header, an accessible slide-out hamburger drawer, an Ask Help shortcut, and a Profile shortcut.
+    *   Mobile learner/facilitator navigation must use a closed overlay drawer. Do not render sidebars as permanent inline columns on mobile. Mobile content must remain full width and must not be squeezed by navigation. Desktop sidebars must only apply at desktop breakpoints.
+    *   Drawer navigation must support active route highlighting and clean visual styling.
+    *   Ensure content has appropriate top padding (e.g. 72px–80px) to prevent overlap with the fixed top header on mobile.
+    *   Avoid using generic admin dashboard styling, black borders, system labels, or AI-powered/platform-generated wording.
+    *   Mobile users should be able to navigate seamlessly through either the drawer links or by scrolling normal page content.
+    *   **Mobile Landing Hero Guidelines:** Mobile landing hero must sit close to the top navigation with balanced spacing. Avoid large empty white gaps above the hero. Do not use animated “SUSTAIN:” badges in the hero. Hero copy should use a static human eyebrow or no eyebrow, strong headline typography, readable subtext, and preserved CTA hierarchy.
 
-## 25. Implementation Checklist
+## 25. Learner Notifications Module
+*   **Learning Update Centre:** Learner notifications must function as a learning update centre. Avoid raw notification logs, harsh metadata cards, black borders, and backend-style record blocks.
+*   **Grouping and Relevance:** Notifications must be grouped by learner-relevant categories such as assessments, live sessions, CPD, support, offline packs, and certificate readiness.
+*   **Visual State Communication:** Use clear read/unread states with soft, high-legibility visual cues (e.g. subtle emerald left border for unread cards), clear contextual action buttons, and mobile-first card layouts.
+*   **Compact Identity:** Replace heavy, dark-bordered user profile tables with compact, soft-background identity cards or context strips.
+
+## 26. Learner My Journey Module
+*   **Guided Mobile Roadmap:** The Learner My Journey module must behave like a guided mobile roadmap. Avoid repeated nested cards, backend-style progress blocks, harsh borders, scattered icons, and generic dashboard cards.
+*   **Clear Structured Flow:** The page should show pathway context, current next step, timeline, course progress, CPD/certificate readiness, and recommended actions in a clear learner-first flow.
+
+## 27. Individual Course Detail Pages
+*   **Mobile Course Hub:** Individual course detail pages must behave like mobile course hubs. Avoid raw metadata cards, clipped text, black-bordered resource blocks, robotic document labels, and disconnected buttons. Course detail pages should show course progress, current lesson, module activities, lightweight resources, CPD/certificate link, and clear next actions.
+
+## 28. Reusable Status Chip System
+*   **Centralized Chip Patterns:** All status indicators across the Learner modules must use the centralized `StatusChip` system. Avoid raw database values, snake_case strings, or unstyled grey pills.
+*   **Color-Coded Semantic States:**
+    *   `Completed` / `Passed` / `In progress` / `Active`: Use soft, highly readable emerald backgrounds (`bg-emerald-50`, `text-emerald-800`, `border-emerald-200`) representing successful/active states.
+    *   `Draft saved` / `Certificate-linked` / `Review pending`: Use amber accents (`bg-amber-50`, `text-amber-800`, `border-amber-200`) for states that require program visibility or are linked to credentials.
+    *   `Pending` / `Attendance pending`: Use soft blue-slate accents (`bg-blue-50`, `text-blue-800`, `border-blue-100`) for scheduled or review states.
+    *   `Locked`: Use quiet, high-contrast greys (`bg-slate-100`, `text-slate-650`, `border-slate-200`).
+    *   `Offline` / `CPD-linked`: Use light teal tones (`bg-teal-50`, `text-teal-800`, `border-teal-150`).
+*   **Consistent Visual Formats:** Every chip must be rendered with `rounded-full`, a small leading status dot, balanced typography (`font-semibold`), and strict AA readability margins.
+
+## 29. Public Landing Hero & Brand Standards
+*   **Static Clean Hero Layout:** Public landing hero sections must never use rotating/animated “SUSTAIN:” badges, badges carousels, or changing labels. The hero must start cleanly with the main headline and readable subtext.
+*   **Shaped Memorable Headline:** Use human-centered, memorable, and product-specific headlines such as "Every step, clearly connected."
+*   **Warm Amber Emphasis Accent:** One emphasis word may use warm amber (`#FBBF24`, `amber-300`, or `amber-400`) to highlight connection or progress. Avoid neon, harsh orange, red-orange, glow, or gradient text.
+*   **Human Product Subtext:** Use clear, descriptive subtext outlining the end-to-end learning flow: lessons, CPD tracker, certificate review, and low-connectivity resilience.
+*   **Card Interactions and Layouts:**
+    *   Landing cards must follow the SUSTAIN standard: `rounded-2xl` or `rounded-3xl`, bg-white, warm white, or soft-tinted surfaces, soft borders, subtle shadows, and spacious, balanced padding.
+    *   No black borders, harsh outlines, raw grey pills, or unstyled system widgets.
+    *   Clickable cards or buttons must have subtle focus/hover/tap states (e.g., scale adjustments `active:scale-[0.99]`, background transitions) for premium tactile feedback.
+    *   Mobile landing flows must avoid desktop grids squeezed into mobile. Ensure full-width lists or single columns with generous gaps.
+*   **No Technical Larping or Robot Language:** Avoid terms like "AI-powered", "next-generation", "unlock your potential", "Secure Access Portal", "NDPR Compliant", "Protocol", "System v4", "Version 2.4", or slash numbering like "01 / PATHWAY". Use literal human labels: "assigned pathways", "CPD progress", "certificate readiness", "low-bandwidth access", and "offline packs".
+
+## 30. Mobile Navigation Drawer & Sidebar Experience
+*   **Premium Mobile App Panels:** Reusable learner/facilitator navigation drawers must feel like premium mobile app panels, not plain menu lists. They should include role-aware header context, grouped navigation, useful learner/facilitator status, visible support/profile/sign-out actions, and a sticky bottom action area.
+*   **Hidden Overlay Behavior:** Mobile drawers must remain hidden overlays and must never push or replace page content.
+
+## 31. Implementation Checklist
 Before completing any UI, layout, or copy adjustment, verify the following checklist:
 
 1.  [ ] **Read design.md:** Confirm changes match the official design rules.

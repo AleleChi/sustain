@@ -6,6 +6,7 @@ import { LearnerSidebar } from "../../components/navigation/LearnerSidebar";
 import { LearnerMobileNav } from "../../components/navigation/LearnerMobileNav";
 import { Card } from "../../components/ui/Card";
 import { Button } from "../../components/ui/Button";
+import { StatusChip } from "../../components/ui/StatusChip";
 import { LearnerSupportCard } from "../../components/learner/LearnerSupportCard";
 import { LearnerContextHint } from "../../components/learner/LearnerContextHint";
 import { 
@@ -642,55 +643,7 @@ const getItemIconLocal = (type: string, isCompleted: boolean, isLocked: boolean)
 };
 
 const renderStatusChipLocal = (status: string) => {
-  const baseClass = "inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-semibold border shrink-0";
-  const statusLower = status.toLowerCase();
-  
-  if (statusLower === "completed" || statusLower === "passed" || statusLower === "complete") {
-    return (
-      <span className={`${baseClass} bg-emerald-50 text-emerald-800 border-emerald-200`}>
-        <span className="h-1 w-1 rounded-full bg-emerald-500" />
-        Completed
-      </span>
-    );
-  }
-  if (statusLower === "in_progress" || statusLower === "current" || statusLower === "in progress") {
-    return (
-      <span className={`${baseClass} bg-amber-50 text-amber-800 border-amber-200`}>
-        <span className="h-1 w-1 rounded-full bg-amber-500" />
-        In progress
-      </span>
-    );
-  }
-  if (statusLower === "pending" || statusLower === "attendance_pending" || statusLower === "attendance pending") {
-    return (
-      <span className={`${baseClass} bg-amber-50 text-amber-800 border-amber-200`}>
-        <span className="h-1 w-1 rounded-full bg-amber-500" />
-        Pending
-      </span>
-    );
-  }
-  if (statusLower === "draft_started" || statusLower === "draft started") {
-    return (
-      <span className={`${baseClass} bg-blue-50 text-blue-700 border-blue-100`}>
-        <span className="h-1 w-1 rounded-full bg-blue-500" />
-        Draft started
-      </span>
-    );
-  }
-  if (statusLower === "locked") {
-    return (
-      <span className={`${baseClass} bg-slate-100 text-slate-600 border-slate-200`}>
-        <span className="h-1 w-1 rounded-full bg-slate-400" />
-        Locked
-      </span>
-    );
-  }
-  return (
-    <span className={`${baseClass} bg-slate-50 text-slate-600 border-slate-200`}>
-      <span className="h-1 w-1 rounded-full bg-slate-400" />
-      {status.replace("_", " ")}
-    </span>
-  );
+  return <StatusChip status={status} />;
 };
 
 const getItemDisplayDataLocal = (item: { type: string; status: string; actionLabel?: string }) => {
@@ -1118,10 +1071,8 @@ function AssignedCourseList({
                               <div className="h-1 w-full bg-slate-100 rounded-full overflow-hidden">
                                 <div className="h-full bg-amber-500 rounded-full" style={{ width: `${mod.progress}%` }} />
                               </div>
-                            )}
-
-                            {/* Module Items List */}
-                            <div className="space-y-3">
+                            )}                            {/* Module Items List */}
+                            <div className="divide-y divide-slate-100 bg-white rounded-2xl border border-slate-100 overflow-hidden">
                               {mod.items.map((item: any, iIdx: number) => {
                                 const isItemCompleted = item.status.toLowerCase() === "completed" || item.status.toLowerCase() === "passed" || item.status.toLowerCase() === "complete";
                                 const isItemLocked = item.status.toLowerCase() === "locked";
@@ -1133,57 +1084,49 @@ function AssignedCourseList({
                                 return (
                                   <div
                                     key={iIdx}
-                                    className={`p-4 rounded-xl border transition-all duration-200 flex flex-col gap-3 text-left ${
+                                    className={`p-4 flex flex-col md:flex-row md:items-center justify-between gap-4 text-left transition-all ${
                                       isItemCurrent
-                                        ? "bg-white border-emerald-200/80 shadow-3xs"
-                                        : "bg-white border-slate-200 hover:border-emerald-150"
+                                        ? "bg-emerald-50/10"
+                                        : ""
                                     }`}
                                   >
-                                    {/* Top row: Icon, Type & Title, Status Chip */}
-                                    <div className="flex items-start justify-between gap-3">
-                                      <div className="flex items-start gap-3 min-w-0">
-                                        <div className={`p-2.5 rounded-xl border shrink-0 mt-0.5 ${
-                                          isItemCompleted
-                                            ? "bg-emerald-50 text-emerald-800 border-emerald-100"
-                                            : isItemCurrent
-                                            ? "bg-emerald-50/50 text-emerald-955 border-emerald-150"
-                                            : isItemLocked
-                                            ? "bg-slate-50 text-slate-400 border-slate-150"
-                                            : "bg-amber-50 text-amber-900 border-amber-150"
-                                        }`}>
-                                          {getItemIconLocal(item.type, isItemCompleted, isItemLocked)}
-                                        </div>
-
-                                        <div className="space-y-0.5 min-w-0">
-                                          <div className="flex items-center gap-2 flex-wrap">
-                                            <span className="text-[10px] font-semibold text-slate-500 font-sans tracking-normal">
-                                              {typeLabel}
-                                            </span>
-                                          </div>
-                                          <h4 className="text-sm font-semibold text-slate-900 leading-snug">
-                                            {item.title}
-                                          </h4>
-                                        </div>
+                                    {/* Left block: Icon, Type & Title, Status Chip */}
+                                    <div className="flex items-start gap-3.5 min-w-0 flex-1">
+                                      <div className={`p-2.5 rounded-xl border shrink-0 mt-0.5 ${
+                                        isItemCompleted
+                                          ? "bg-emerald-50 text-emerald-800 border-emerald-100"
+                                          : isItemCurrent
+                                          ? "bg-emerald-50 text-emerald-955 border-emerald-150 animate-pulse"
+                                          : isItemLocked
+                                          ? "bg-slate-50 text-slate-400 border-slate-150"
+                                          : "bg-amber-50 text-amber-900 border-amber-150"
+                                      }`}>
+                                        {getItemIconLocal(item.type, isItemCompleted, isItemLocked)}
                                       </div>
 
-                                      {/* Status Chip */}
-                                      <div className="shrink-0">
-                                        {renderStatusChipLocal(item.status)}
+                                      <div className="space-y-1 min-w-0 text-left flex-1">
+                                        <div className="flex items-center gap-2 flex-wrap">
+                                          <span className="text-[10px] font-bold text-slate-500 font-sans tracking-wide uppercase">
+                                            {typeLabel}
+                                          </span>
+                                          {renderStatusChipLocal(item.status)}
+                                        </div>
+                                        <h4 className="text-sm font-bold text-slate-900 leading-snug">
+                                          {item.title}
+                                        </h4>
+                                        {helperText && (
+                                          <p className="text-xs text-slate-600 leading-relaxed font-medium">
+                                            {helperText}
+                                          </p>
+                                        )}
                                       </div>
                                     </div>
 
-                                    {/* Description / Helper text */}
-                                    {helperText && (
-                                      <p className="text-xs text-slate-600 leading-relaxed font-medium pl-13 pr-2">
-                                        {helperText}
-                                      </p>
-                                    )}
-
-                                    {/* Bottom Action Area (Action Button) */}
-                                    <div className="pt-3 border-t border-slate-100/80 flex justify-end">
+                                    {/* Action Button */}
+                                    <div className="shrink-0 flex items-center justify-end">
                                       <button
                                         onClick={() => navigateTo(item.route)}
-                                        className={`text-xs font-semibold py-2 px-4 rounded-xl flex items-center justify-center gap-1.5 cursor-pointer transition-all w-full sm:w-auto min-h-[38px] text-center ${
+                                        className={`text-xs font-bold py-2 px-4.5 rounded-xl flex items-center justify-center gap-1.5 cursor-pointer transition-all w-full md:w-auto min-h-[40px] text-center ${
                                           isPrimary
                                             ? "bg-emerald-900 hover:bg-emerald-800 text-white shadow-3xs border border-emerald-900"
                                             : isLocked
@@ -2106,7 +2049,13 @@ function OfflinePromptCard({ navigateTo, showToast }: { navigateTo: (path: any) 
 function MobileLearnerCourses(props: LayoutProps) {
   const {
     filteredCourses,
+    searchQuery,
+    setSearchQuery,
+    activeFilter,
+    setActiveFilter,
     showToast,
+    handleApplyFilters,
+    handleResetFilters,
     navigateTo,
     mobileMenuOpen,
     setMobileMenuOpen
@@ -2134,20 +2083,45 @@ function MobileLearnerCourses(props: LayoutProps) {
         {/* 2. Quick stats */}
         <CourseSummaryCards navigateTo={navigateTo} />
 
-        {/* 3. Assigned list */}
+        {/* 3. Current course highlight */}
+        <ActiveCourseFocus navigateTo={navigateTo} />
+
+        {/* 4. Course search filters */}
+        <CourseFilters
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+          activeFilter={activeFilter}
+          setActiveFilter={setActiveFilter}
+          handleApplyFilters={handleApplyFilters}
+          handleResetFilters={handleResetFilters}
+        />
+
+        {/* 5. Assigned list */}
         <AssignedCourseList
           filteredCourses={filteredCourses}
           showToast={showToast}
           navigateTo={navigateTo}
         />
 
-        {/* 4. Recent activities log */}
+        {/* 6. Active course/module preview */}
+        <CurrentLessonMaterials
+          navigateTo={navigateTo}
+          showToast={showToast}
+        />
+
+        {/* 7. CPD and certificate link */}
+        <AssessmentCertificateConnection navigateTo={navigateTo} />
+
+        {/* 8. Recent activities log */}
         <RecentCourseActivity navigateTo={navigateTo} />
 
-        {/* 5. Learning pathway indicator / context */}
+        {/* 9. Learning pathway indicator / context */}
         <LearningPathwayContextRightCard navigateTo={navigateTo} />
 
-        {/* 6. Offline prompt */}
+        {/* 10. Recommended actions/support */}
+        <LearnerSupportCard className="bg-emerald-50/60 rounded-2xl border border-emerald-200" />
+
+        {/* 11. Offline prompt */}
         <OfflinePromptCard navigateTo={navigateTo} showToast={showToast} />
 
       </main>

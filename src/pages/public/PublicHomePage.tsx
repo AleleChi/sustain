@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useRoute } from "../../context/RouteContext";
 import { Card } from "../../components/ui/Card";
 import { SustainPreloader } from "../../components/public/SustainPreloader";
+import { StatusChip } from "../../components/ui/StatusChip";
 import { 
   Award, 
   BookOpen, 
@@ -49,33 +50,6 @@ export function PublicHomePage() {
   // Sticky bottom action bar state
   const [showStickyBar, setShowStickyBar] = useState(false);
 
-  // Text Carousel for Hero Badge
-  const textItems = [
-    "Structured pathways",
-    "Facilitator review",
-    "CPD tracking",
-    "Certificate readiness",
-    "Low-bandwidth learning",
-    "Offline packs"
-  ];
-  const [activeTextIndex, setActiveTextIndex] = useState(0);
-  const [fadeState, setFadeState] = useState(true);
-
-  useEffect(() => {
-    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReduced) return;
-
-    const interval = setInterval(() => {
-      setFadeState(false);
-      setTimeout(() => {
-        setActiveTextIndex((prev) => (prev + 1) % textItems.length);
-        setFadeState(true);
-      }, 300); // Wait for fade out to complete
-    }, 3500);
-
-    return () => clearInterval(interval);
-  }, [textItems.length]);
-
   // Scroll listener for mobile sticky action bar
   useEffect(() => {
     const handleScroll = () => {
@@ -107,64 +81,58 @@ export function PublicHomePage() {
       <div className="block md:hidden space-y-0 bg-slate-50/10">
         
         {/* 1. SHORT MOBILE SPLASH / WELCOME SCREEN */}
-        <section className="relative bg-gradient-to-b from-[#003B2C] via-[#004D3B] to-slate-50 text-white rounded-b-3xl pb-8 overflow-hidden shadow-sm">
+        <section className="relative mx-4 mt-3 bg-gradient-to-br from-[#002B20] to-[#004A37] text-white rounded-[28px] overflow-hidden shadow-sm">
           {/* Subtle decoration glows */}
           <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
           <div className="absolute bottom-10 left-0 w-48 h-48 bg-amber-500/5 rounded-full blur-2xl pointer-events-none" />
 
-          <div className="px-5 pt-8 pb-4 space-y-6">
-            <div className="space-y-3">
-              <span className="inline-flex items-center px-3.5 py-1 rounded-full text-[11px] font-medium bg-emerald-950/40 text-emerald-300 border border-emerald-800/40 h-7 overflow-hidden">
-                <span className="text-emerald-400 font-bold mr-1.5 font-sans">SUSTAIN:</span>
-                <span className={`transition-opacity duration-300 ${fadeState ? "opacity-100" : "opacity-0"}`}>
-                  {textItems[activeTextIndex]}
-                </span>
-              </span>
-              
-              <h1 className="text-2xl font-bold tracking-tight text-white font-heading leading-tight pt-1">
-                Learning pathways that connect lessons, assessments, live sessions, CPD, and certificates.
+          <div className="px-6 pt-12 pb-10 space-y-6 flex flex-col items-center text-center">
+            <div className="space-y-4 max-w-[340px] mx-auto">
+              <h1 className="text-[38px] font-bold tracking-tight text-white font-heading leading-[1.03] flex flex-col">
+                <span>Every step, clearly</span>
+                <span className="text-[#FBBF24]">connected.</span>
               </h1>
               
-              <p className="text-[11px] text-slate-200 leading-relaxed font-sans font-medium">
-                SUSTAIN LMS helps learners continue training, submit assessments, attend required sessions, track CPD progress, and prepare for certificate review — even in low-connectivity settings.
+              <p className="text-base leading-7 font-normal text-white/85 max-w-[335px] mx-auto mt-[18px]">
+                From lessons to CPD and certificate review, SUSTAIN LMS keeps each learner’s progress clear — even with limited connectivity.
               </p>
             </div>
 
             {/* Splash actions */}
-            <div className="grid grid-cols-2 gap-3 pt-1">
+            <div className="grid grid-cols-2 gap-3 pt-2 w-full max-w-[320px] mx-auto">
               <button 
                 onClick={() => navigateTo("/signup")}
-                className="h-11 bg-white hover:bg-slate-50 text-[#005C45] rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-1.5 shadow-xs"
+                className="h-11 bg-white hover:bg-slate-50 text-[#005C45] rounded-xl text-xs font-bold transition-all active:scale-[0.99] cursor-pointer flex items-center justify-center gap-1.5 shadow-xs"
               >
                 Get Started
                 <ArrowRight className="h-3.5 w-3.5 text-[#005C45]" />
               </button>
               <button 
                 onClick={() => navigateTo("/login")}
-                className="h-11 bg-emerald-950/40 hover:bg-emerald-900/40 border border-emerald-800/40 text-white rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-1.5"
+                className="h-11 bg-emerald-950/40 hover:bg-emerald-900/40 border border-emerald-800/40 text-white rounded-xl text-xs font-bold transition-all active:scale-[0.99] cursor-pointer flex items-center justify-center gap-1.5"
               >
                 Sign In
               </button>
             </div>
-            <div className="text-center pt-0.5">
+            <div className="text-center pt-1 w-full">
               <button
                 onClick={() => navigateTo("/verify-certificate")}
-                className="text-[11px] font-bold text-emerald-300 hover:text-white transition-colors underline underline-offset-4 decoration-emerald-500/50"
+                className="text-[11px] font-bold text-emerald-300 hover:text-white transition-colors underline underline-offset-4 decoration-emerald-500/50 cursor-pointer"
               >
                 Verify an issued certificate
               </button>
             </div>
 
             {/* Compact Floating Product Preview Card */}
-            <div className="pt-2">
+            <div className="pt-2 w-full max-w-[325px] mx-auto">
               <div className="bg-white/95 backdrop-blur-md text-slate-900 border border-slate-100 shadow-xl rounded-3xl p-5 space-y-4">
                 {/* Pathway Header */}
-                <div className="pb-3 border-b border-slate-100">
+                <div className="pb-3 border-b border-slate-100 text-left">
                   <span className="text-[9px] text-emerald-800 font-bold uppercase tracking-wider bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-100">
                     Sustained learning pathway
                   </span>
                   <h4 className="text-sm font-semibold text-slate-900 mt-2 font-heading">Youth Employability Pathway</h4>
-                  <p className="text-[10px] text-slate-500 mt-0.5">Work readiness progress, assessment review, CPD credits, and session attendance in one connected flow.</p>
+                  <p className="text-[10px] text-slate-500 mt-0.5 leading-normal">Work readiness progress, assessment review, CPD credits, and session attendance in one connected flow.</p>
                 </div>
 
                 {/* Status items */}
@@ -178,9 +146,7 @@ export function PublicHomePage() {
                         <span className="font-semibold text-slate-800 block text-[10px] truncate max-w-[130px]">Work Readiness Foundation</span>
                       </div>
                     </div>
-                    <span className="text-[9px] font-bold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-100">
-                      In progress
-                    </span>
+                    <StatusChip status="in-progress" className="text-[10px] py-0.5 px-2" />
                   </div>
 
                   {/* Assessment */}
@@ -192,14 +158,12 @@ export function PublicHomePage() {
                         <span className="font-semibold text-slate-800 block text-[10px] truncate max-w-[130px]">Work Readiness Assignment</span>
                       </div>
                     </div>
-                    <span className="text-[9px] font-semibold text-slate-600 bg-white px-2 py-0.5 rounded-md border border-slate-200">
-                      Draft saved
-                    </span>
+                    <StatusChip status="draft-saved" className="text-[10px] py-0.5 px-2" />
                   </div>
 
                   {/* CPD progress bar */}
                   <div className="bg-slate-50 p-2.5 rounded-xl border border-slate-200 space-y-1.5">
-                    <div className="flex items-center justify-between">
+                    <div className="flex items-center justify-between text-left">
                       <span className="font-semibold text-slate-800 text-[10px] flex items-center gap-1">
                         <Award className="h-3.5 w-3.5 text-[#005C45] shrink-0" />
                         CPD progress
@@ -220,19 +184,13 @@ export function PublicHomePage() {
                         <span className="font-semibold text-slate-800 block text-[10px] truncate max-w-[130px]">Interview Practice Clinic</span>
                       </div>
                     </div>
-                    <span className="text-[9px] font-semibold text-slate-600 bg-white px-2 py-0.5 rounded-md border border-slate-200">
-                      Attendance pending
-                    </span>
+                    <StatusChip status="attendance-pending" className="text-[10px] py-0.5 px-2" />
                   </div>
 
                   {/* Status pills */}
                   <div className="grid grid-cols-2 gap-2 pt-1">
-                    <div className="bg-amber-50 border border-amber-100 p-2 rounded-xl flex items-center justify-center gap-1.5 text-[9px] font-bold text-amber-800">
-                      Certificate review pending
-                    </div>
-                    <div className="bg-emerald-50 border border-emerald-100 p-2 rounded-xl flex items-center justify-center gap-1.5 text-[9px] font-bold text-emerald-800">
-                      Offline packs ready
-                    </div>
+                    <StatusChip status="review-pending" className="text-[9px] py-1 px-1.5 justify-center">Certificate review pending</StatusChip>
+                    <StatusChip status="offline-ready" className="text-[9px] py-1 px-1.5 justify-center">Offline packs ready</StatusChip>
                   </div>
                 </div>
               </div>
@@ -463,34 +421,28 @@ export function PublicHomePage() {
           <div className="mx-auto grid max-w-7xl grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] items-center gap-12 px-4 sm:px-6 lg:px-8">
             
             {/* Left Content */}
-            <div className="space-y-6 max-w-2xl">
-              <span className="inline-flex items-center px-3.5 py-1.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-950 border border-emerald-100 h-8 overflow-hidden">
-                <span className="text-emerald-700 font-bold mr-1.5">SUSTAIN:</span>
-                <span className={`transition-opacity duration-300 ${fadeState ? "opacity-100" : "opacity-0"}`}>
-                  {textItems[activeTextIndex]}
-                </span>
-              </span>
-              
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight text-slate-900 font-heading leading-tight lg:leading-[1.15]">
-                Learning pathways that connect lessons, assessments, live sessions, CPD, and certificates.
+            <div className="space-y-6 max-w-2xl text-left">
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-slate-900 font-heading leading-[1.12] flex flex-col">
+                <span>Every step, clearly</span>
+                <span className="text-[#FBBF24]">connected.</span>
               </h1>
               
-              <p className="text-xs sm:text-sm text-slate-600 font-sans leading-relaxed">
-                SUSTAIN LMS helps learners continue training, submit assessments, attend required sessions, track CPD progress, and prepare for certificate review — even in low-connectivity settings.
+              <p className="text-sm text-slate-600 font-sans leading-relaxed">
+                From lessons to CPD and certificate review, SUSTAIN LMS keeps each learner’s progress clear — even with limited connectivity.
               </p>
 
               {/* CTA Buttons */}
               <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5 pt-2">
                 <button 
                   onClick={() => navigateTo("/signup")} 
-                  className="h-[46px] px-6 flex items-center justify-center gap-2 font-semibold bg-[#005C45] text-white hover:bg-[#003B2C] text-xs shadow-sm transition-all rounded-xl cursor-pointer"
+                  className="h-[46px] px-6 flex items-center justify-center gap-2 font-semibold bg-[#005C45] text-white hover:bg-[#003B2C] text-xs shadow-sm transition-all active:scale-[0.99] rounded-xl cursor-pointer"
                 >
                   Get Started
                   <ArrowRight className="h-4 w-4 text-emerald-300" />
                 </button>
                 <button 
                   onClick={() => navigateTo("/verify-certificate")} 
-                  className="h-[46px] px-6 flex items-center justify-center gap-1.5 font-semibold bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 text-xs shadow-3xs transition-all rounded-xl cursor-pointer"
+                  className="h-[46px] px-6 flex items-center justify-center gap-1.5 font-semibold bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 text-xs shadow-3xs transition-all active:scale-[0.99] rounded-xl cursor-pointer"
                 >
                   <ShieldCheck className="h-4 w-4 text-[#005C45]" />
                   Verify a Certificate
@@ -511,7 +463,7 @@ export function PublicHomePage() {
                 
                 <div className="relative space-y-5">
                   {/* Header Info */}
-                  <div className="pb-3.5 border-b border-slate-100">
+                  <div className="pb-3.5 border-b border-slate-100 text-left">
                     <span className="text-[9px] text-emerald-800 font-bold uppercase tracking-wider bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-100">
                       Sustained learning pathway
                     </span>
@@ -527,14 +479,12 @@ export function PublicHomePage() {
                         <div className="p-2 bg-white text-[#005C45] rounded-xl border border-slate-100 shadow-4xs">
                           <BookOpen className="h-4 w-4" />
                         </div>
-                        <div>
+                        <div className="text-left">
                           <span className="text-[9px] font-bold text-slate-400 uppercase block tracking-wider">Current course</span>
                           <p className="font-semibold text-slate-800 mt-0.5">Work Readiness Foundation</p>
                         </div>
                       </div>
-                      <span className="text-[10px] font-bold text-emerald-800 bg-emerald-50 px-2.5 py-0.5 rounded-lg border border-emerald-100">
-                        In progress
-                      </span>
+                      <StatusChip status="in-progress" className="text-[10px] py-0.5 px-2.5 font-semibold" />
                     </div>
 
                     {/* Assessment */}
@@ -543,19 +493,17 @@ export function PublicHomePage() {
                         <div className="p-2 bg-white text-[#005C45] rounded-xl border border-slate-100 shadow-4xs">
                           <FileText className="h-4 w-4" />
                         </div>
-                        <div>
+                        <div className="text-left">
                           <span className="text-[9px] font-bold text-slate-400 uppercase block tracking-wider">Assessment</span>
                           <p className="font-semibold text-slate-800 mt-0.5">Work Readiness Assignment</p>
                         </div>
                       </div>
-                      <span className="text-[10px] font-semibold text-slate-600 bg-white px-2.5 py-0.5 rounded-lg border border-slate-200">
-                        Draft saved
-                      </span>
+                      <StatusChip status="draft-saved" className="text-[10px] py-0.5 px-2.5 font-semibold" />
                     </div>
 
                     {/* CPD progress with progress bar */}
                     <div className="bg-slate-50/50 p-3.5 rounded-2xl border border-slate-200 space-y-2.5">
-                      <div className="flex items-center justify-between">
+                      <div className="flex items-center justify-between text-left">
                         <div className="flex items-center gap-2">
                           <Award className="h-4.5 w-4.5 text-[#005C45]" />
                           <span className="font-semibold text-slate-800 text-[11px]">CPD progress</span>
@@ -573,24 +521,18 @@ export function PublicHomePage() {
                         <div className="p-2 bg-white text-[#005C45] rounded-xl border border-slate-100 shadow-4xs">
                           <Calendar className="h-4 w-4" />
                         </div>
-                        <div>
+                        <div className="text-left">
                           <span className="text-[9px] font-bold text-slate-400 uppercase block tracking-wider">Required session</span>
                           <p className="font-semibold text-slate-800 mt-0.5">Interview Practice Clinic</p>
                         </div>
                       </div>
-                      <span className="text-[10px] font-semibold text-slate-600 bg-white px-2.5 py-0.5 rounded-lg border border-slate-200">
-                        Attendance pending
-                      </span>
+                      <StatusChip status="attendance-pending" className="text-[10px] py-0.5 px-2.5 font-semibold" />
                     </div>
 
                     {/* Status pills row */}
                     <div className="grid grid-cols-2 gap-3 pt-1">
-                      <div className="bg-amber-50/50 border border-amber-100 p-2.5 rounded-xl flex items-center justify-center gap-2 text-[10px] font-bold text-amber-800">
-                        Certificate review pending
-                      </div>
-                      <div className="bg-emerald-50/50 border border-emerald-100 p-2.5 rounded-xl flex items-center justify-center gap-2 text-[10px] font-bold text-emerald-800">
-                        Offline packs ready
-                      </div>
+                      <StatusChip status="review-pending" className="text-[10px] py-1 px-2.5 justify-center">Certificate review pending</StatusChip>
+                      <StatusChip status="offline-ready" className="text-[10px] py-1 px-2.5 justify-center">Offline packs ready</StatusChip>
                     </div>
                   </div>
 
