@@ -94,7 +94,15 @@ export type RoutePath =
   | "/facilitator/community"
   | "/facilitator/support-tickets"
   | "/facilitator/support"
-  | "/facilitator/tickets";
+  | "/facilitator/tickets"
+  | "/programme"
+  | "/programme/dashboard"
+  | "/programme/learners"
+  | "/programme/cohorts"
+  | "/programme/reports"
+  | "/programme/certificates"
+  | "/programme/support"
+  | "/programme/settings";
 
 interface RouteContextType {
   currentPath: string;
@@ -198,7 +206,15 @@ const VALID_ROUTES: RoutePath[] = [
   "/facilitator/community",
   "/facilitator/support-tickets",
   "/facilitator/support",
-  "/facilitator/tickets"
+  "/facilitator/tickets",
+  "/programme",
+  "/programme/dashboard",
+  "/programme/learners",
+  "/programme/cohorts",
+  "/programme/reports",
+  "/programme/certificates",
+  "/programme/support",
+  "/programme/settings"
 ];
 
 function cleanAndNormalize(rawPath: string): string {

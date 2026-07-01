@@ -23,14 +23,16 @@ import {
   BarChart3,
   MessageSquare,
   ShieldAlert,
-  ArrowRight
+  ArrowRight,
+  Layers,
+  Settings
 } from "lucide-react";
 import { mockLearner } from "../../data/mockLearner";
 
 interface AppNavigationDrawerProps {
   isOpen: boolean;
   onClose: () => void;
-  moduleType: "learner" | "facilitator";
+  moduleType: "learner" | "facilitator" | "programme";
 }
 
 export function AppNavigationDrawer({ isOpen, onClose, moduleType }: AppNavigationDrawerProps) {
@@ -70,6 +72,7 @@ export function AppNavigationDrawer({ isOpen, onClose, moduleType }: AppNavigati
   }, [showSignOutConfirm]);
 
   const isLearner = moduleType === "learner";
+  const isProgramme = moduleType === "programme";
 
   interface NavItem {
     label: string;
@@ -152,6 +155,26 @@ export function AppNavigationDrawer({ isOpen, onClose, moduleType }: AppNavigati
     }
   ];
 
+  const programmeGroups: NavGroup[] = [
+    {
+      title: "Programme Delivery",
+      items: [
+        { label: "Dashboard", path: "/programme/dashboard", icon: LayoutDashboard },
+        { label: "Learners", path: "/programme/learners", icon: Users },
+        { label: "Cohorts", path: "/programme/cohorts", icon: Layers },
+      ]
+    },
+    {
+      title: "Monitoring & Reporting",
+      items: [
+        { label: "Reports", path: "/programme/reports", icon: BarChart3 },
+        { label: "Certificates", path: "/programme/certificates", icon: Award, badge: "312" },
+        { label: "Support", path: "/programme/support", icon: HelpCircle, badge: "23" },
+        { label: "Settings", path: "/programme/settings", icon: Settings }
+      ]
+    }
+  ];
+
   const handleItemClick = (path: string) => {
     onClose();
     navigateTo(path as RoutePath);
@@ -163,6 +186,9 @@ export function AppNavigationDrawer({ isOpen, onClose, moduleType }: AppNavigati
     }
     if (itemPath === "/facilitator/dashboard") {
       return currentPath === "/facilitator/dashboard" || currentPath === "/facilitator";
+    }
+    if (itemPath === "/programme/dashboard") {
+      return currentPath === "/programme/dashboard" || currentPath === "/programme";
     }
     return currentPath === itemPath || currentPath.startsWith(itemPath + "/");
   };
@@ -220,6 +246,24 @@ export function AppNavigationDrawer({ isOpen, onClose, moduleType }: AppNavigati
                 </div>
               </div>
             </div>
+          ) : isProgramme ? (
+            <div className="text-left space-y-3">
+              <div>
+                <p className="text-lg font-bold text-white tracking-tight">Programme Team</p>
+                <p className="text-xs text-emerald-100 font-medium">National Delivery Lead</p>
+                <p className="text-xs text-amber-300 font-semibold">SUSTAIN CPD Nigeria</p>
+              </div>
+              <div className="grid grid-cols-2 gap-2 pt-2 border-t border-emerald-800/60 text-center">
+                <div className="bg-emerald-950/40 py-1.5 px-1 rounded-lg">
+                  <span className="block text-amber-300 font-mono font-bold text-xs">4,286</span>
+                  <span className="text-[9px] text-emerald-200 font-medium">enrolled</span>
+                </div>
+                <div className="bg-emerald-950/40 py-1.5 px-1 rounded-lg">
+                  <span className="block text-amber-300 font-mono font-bold text-xs">18</span>
+                  <span className="text-[9px] text-emerald-200 font-medium">cohorts</span>
+                </div>
+              </div>
+            </div>
           ) : (
             <div className="text-left space-y-3">
               <div>
@@ -264,6 +308,22 @@ export function AppNavigationDrawer({ isOpen, onClose, moduleType }: AppNavigati
                 <ArrowRight className="h-3 w-3" />
               </button>
             </div>
+          ) : isProgramme ? (
+            <div className="bg-emerald-50 border border-emerald-100/80 rounded-2xl p-4 text-left">
+              <div className="flex items-center justify-between">
+                <span className="text-[10px] text-emerald-800 font-bold uppercase tracking-wider">Programme Oversight</span>
+                <span className="text-[10px] bg-amber-100 text-amber-800 font-semibold px-2 py-0.5 rounded-full">312 ready</span>
+              </div>
+              <h4 className="font-bold text-slate-800 text-xs mt-1">Certificate Review Queue</h4>
+              <p className="text-[11px] text-slate-500 mt-0.5">Next step: Review queue</p>
+              <button 
+                onClick={() => handleItemClick("/programme/certificates")}
+                className="mt-3 w-full py-2 bg-[#005C45] hover:bg-[#003B2C] active:scale-[0.99] transition-all text-white font-bold text-[11px] rounded-xl flex items-center justify-center gap-1 cursor-pointer shadow-3xs"
+              >
+                Review Certificates
+                <ArrowRight className="h-3 w-3" />
+              </button>
+            </div>
           ) : (
             <div className="bg-emerald-50 border border-emerald-100/80 rounded-2xl p-4 text-left">
               <div className="flex items-center justify-between">
@@ -283,7 +343,7 @@ export function AppNavigationDrawer({ isOpen, onClose, moduleType }: AppNavigati
           )}
 
           {/* Groups */}
-          {(isLearner ? learnerGroups : facilitatorGroups).map((group, groupIdx) => (
+          {(isLearner ? learnerGroups : isProgramme ? programmeGroups : facilitatorGroups).map((group, groupIdx) => (
             <div key={groupIdx} className="space-y-1.5">
               <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block px-2.5">
                 {group.title}
@@ -336,7 +396,7 @@ export function AppNavigationDrawer({ isOpen, onClose, moduleType }: AppNavigati
         >
           <div className="grid grid-cols-2 gap-2.5">
             <button
-              onClick={() => handleItemClick(isLearner ? "/learner/support" : "/facilitator/support-tickets")}
+              onClick={() => handleItemClick(isLearner ? "/learner/support" : isProgramme ? "/programme/support" : "/facilitator/support-tickets")}
               className="flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl text-[11px] font-bold text-emerald-800 bg-emerald-50 hover:bg-emerald-100 active:scale-[0.99] transition-all cursor-pointer shadow-3xs h-[44px]"
               aria-label="Ask for help"
             >
@@ -345,12 +405,12 @@ export function AppNavigationDrawer({ isOpen, onClose, moduleType }: AppNavigati
             </button>
 
             <button
-              onClick={() => handleItemClick(isLearner ? "/learner/profile" : "/facilitator/profile")}
+              onClick={() => handleItemClick(isLearner ? "/learner/profile" : isProgramme ? "/programme/settings" : "/facilitator/profile")}
               className="flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl text-[11px] font-bold text-slate-700 bg-slate-50 hover:bg-slate-100 active:scale-[0.99] transition-all cursor-pointer shadow-3xs h-[44px]"
-              aria-label="View Profile"
+              aria-label="View Profile or Settings"
             >
               <User className="h-4 w-4 text-slate-500" />
-              <span>Profile</span>
+              <span>{isProgramme ? "Settings" : "Profile"}</span>
             </button>
           </div>
 

@@ -5,7 +5,7 @@ import { AppNavigationDrawer } from "./AppNavigationDrawer";
 import { mockLearner } from "../../data/mockLearner";
 
 interface AppMobileHeaderProps {
-  moduleType: "learner" | "facilitator";
+  moduleType: "learner" | "facilitator" | "programme";
   title?: string;
 }
 
@@ -14,12 +14,13 @@ export function AppMobileHeader({ moduleType, title }: AppMobileHeaderProps) {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const isLearner = moduleType === "learner";
-  const defaultTitle = isLearner ? "SUSTAIN LMS" : "Facilitator Workspace";
+  const isProgramme = moduleType === "programme";
+  const defaultTitle = isLearner ? "SUSTAIN LMS" : isProgramme ? "Programme Workspace" : "Facilitator Workspace";
   const displayTitle = title || defaultTitle;
 
-  const profilePath = isLearner ? "/learner/profile" : "/facilitator/profile";
-  const supportPath = isLearner ? "/learner/support" : "/facilitator/support-tickets";
-  const notificationsPath = isLearner ? "/learner/notifications" : "/facilitator/communications";
+  const profilePath = isLearner ? "/learner/profile" : isProgramme ? "/programme/settings" : "/facilitator/profile";
+  const supportPath = isLearner ? "/learner/support" : isProgramme ? "/programme/support" : "/facilitator/support-tickets";
+  const notificationsPath = isLearner ? "/learner/notifications" : isProgramme ? "/programme/dashboard" : "/facilitator/communications";
 
   return (
     <>
@@ -40,7 +41,7 @@ export function AppMobileHeader({ moduleType, title }: AppMobileHeaderProps) {
               {displayTitle}
             </span>
             <span className="text-[10px] text-emerald-700 font-semibold uppercase tracking-wider font-sans">
-              {isLearner ? mockLearner.name : "Halima Sani"}
+              {isLearner ? mockLearner.name : isProgramme ? "Programme Team" : "Halima Sani"}
             </span>
           </div>
         </div>
@@ -80,6 +81,10 @@ export function AppMobileHeader({ moduleType, title }: AppMobileHeaderProps) {
             {isLearner ? (
               <div className="h-8 w-8 rounded-full bg-emerald-900 flex items-center justify-center font-bold text-xs text-white">
                 AM
+              </div>
+            ) : isProgramme ? (
+              <div className="h-8 w-8 rounded-full bg-emerald-800 flex items-center justify-center font-bold text-[10px] text-white">
+                PROG
               </div>
             ) : (
               <img

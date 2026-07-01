@@ -49,7 +49,8 @@ export function LoginPage() {
         showToast("Logged in successfully as Cohort Facilitator");
         navigateTo("/facilitator/dashboard");
       } else if (role === "admin") {
-        setShowAdminModal(true);
+        showToast("Logged in successfully as Programme Coordinator");
+        navigateTo("/programme/dashboard");
       }
     }, 700);
   };

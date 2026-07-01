@@ -48,6 +48,7 @@ import LearnerCheckpointReviewPage from "./pages/learner/LearnerCheckpointReview
 import LearnerSubmittedPage from "./pages/learner/LearnerSubmittedPage";
 import LearnerQuizAttemptPage from "./pages/learner/LearnerQuizAttemptPage";
 import { FacilitatorRouterPage } from "./pages/facilitator/FacilitatorRouterPage";
+import { ProgrammeRouterPage } from "./pages/programme/ProgrammeRouterPage";
 import { motion, AnimatePresence } from "motion/react";
 
 function AppContent() {
@@ -115,12 +116,15 @@ function AppContent() {
   ].includes(currentPath);
 
   const isFacilitatorPath = currentPath.startsWith("/facilitator");
+  const isProgrammePath = currentPath.startsWith("/programme");
 
   let resolvedPath = currentPath;
   if (isLearnerPath && !isKnownLearnerPath) {
     resolvedPath = "/learner";
   } else if (isFacilitatorPath) {
     resolvedPath = "/facilitator";
+  } else if (isProgrammePath) {
+    resolvedPath = "/programme";
   }
 
   const pageContent = (() => {
@@ -128,6 +132,10 @@ function AppContent() {
       case "/facilitator":
         return (
           <FacilitatorRouterPage />
+        );
+      case "/programme":
+        return (
+          <ProgrammeRouterPage />
         );
       case "/learner":
       case "/learner/dashboard":

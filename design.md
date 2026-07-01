@@ -225,6 +225,15 @@ Sustain credentials carry professional weight. The system must represent eligibi
     *   Renders a clear eligibility tracker matching the required credits (e.g., `22 / 35 Credits`).
     *   Maintains a secure credential verification look using spaced, formatted alphanumeric strings.
 
+*   **Certificate Design & Review Specifications:**
+    1.  **Public Verification Privacy:** Public certificate verification must show a verified certificate record summary, not private learner evidence.
+    2.  **Optional Public Preview:** Full certificate preview is optional and must only include public certificate fields.
+    3.  **Strict Data Exclusion:** Public verification must not expose facilitator notes, CPD evidence, assessment details, attendance logs, or internal review comments.
+    4.  **Readiness-Focused Language:** Programme certificate review must use certificate readiness language, not audit/portfolio/submission language.
+    5.  **Oversight Checklist Requirements:** Certificate review should show CPD complete, assessment reviewed, attendance confirmed, facilitator confirmation, programme approval, and public verification readiness.
+    6.  **Optimized Mobile Review Flow:** Mobile certificate review must use full-screen sheets, not squeezed desktop split panels.
+    7.  **Actual Component Implementation Rule:** Programme certificate review must edit the actual rendered certificate component. The review queue should use calm learner review cards, sentence-case status chips, compact readiness chips, soft selected states, and pagination. The selected detail panel should use one checklist card, soft programme approval highlight, human certificate record language, refined facilitator notes, and balanced actions. Mobile must use review cards and a full-screen review sheet, never a squeezed split panel.
+
 ---
 
 ## 17. Timer and Alert Rules
@@ -405,13 +414,119 @@ To preserve the premium feel and support fast, reliable operations (even in low-
 
 ---
 
-## 34. Implementation Checklist
+## 35. Programme Settings Design Standards
+*   **Human-Centric Copy:** Completely avoid technical database or administrative terms like "registry," "sync," "diagnostics," "cache," "metadata," "override," or "protocol." Replace them with warm, development-sector human language: "data updates," "programme targets," "CPD rules," and "reporting preferences."
+*   **Premium Segmented Grid & Layout:** Organise settings at desktop widths into a balanced 2-column bento-like grid (e.g., 7/12 left-hand, 5/12 right-hand columns). Avoid vast, empty, or stretched card fields.
+*   **Interactive Tactile Controllers:** Replace raw input sliders or numeric fields with custom interactive stepper buttons (+ / -) for targets and thresholds, and elegant, high-contrast, custom rounded switches (Enabled/Disabled toggles) featuring immediate micro-interactive state changes.
+*   **Safe Sandbox Safeguards:** Ensure any action button that triggers advanced or mock integrations (e.g., view reports, export files, data refreshing) presents a beautiful high-fidelity overlay modal detailing that the operation is prepared and is ready for live production backend bindings.
+*   **Typography & Card Highlights:** Programme settings cards must use refined typography, human labels, compact highlights, and soft setting rows. Numeric values must use normal UI typography, not monospace or system-generated styling. Mobile setting rows should stack when values are long. Avoid calculator-like controls, raw sliders, uppercase metric labels, and generated phrases such as “threshold necessary for graduation.” Each major settings card should include one useful highlight to improve scanning and hierarchy.
+
+---
+
+## 36. Programme Dashboard & Reporting Design Standards
+*   **National Delivery Environment:** The Programme Dashboard must act as a world-class monitoring workspace for national delivery. Completely avoid mock-terminal or backend-system status chips like "Active Syncing" or "Registry Sync." Use clean, professional human language such as "Live programme data" or "Updated today."
+*   **Storytelling Layout:** The Programme Dashboard must tell a coherent programme-management story instead of just presenting scattered KPI cards. The page flow should prioritise actionable oversight: Today's Programme Focus first, followed by the KPI strip, Programme Progress, Cohort Health, Pathway Performance, Gender & Location Snapshot, Low-Bandwidth adaptation, and Recent Activity.
+*   **Durable Nigeria Location Reporting:** All state and local government area (LGA) tracking must utilize a reusable location data module (`src/data/nigeriaLocations.ts`) featuring structured states and LGA hierarchies.
+*   **Dependent Multi-Level Filters:** State and LGA filters across the workspace must be strictly dependent. Selecting a state must update and restrict the available LGA options dynamically, resetting any generic selections.
+*   **Strategic Detail Snapshots:** The main dashboard snapshot should present only the top performing or critical states and LGAs to maintain visual clarity, while the detailed Reports page provides comprehensive filtering, deep lists, and multi-column tables.
+*   **Bento-style Desktop Layout:** Organize the dashboard into a highly refined, double-column bento grid. The left column (wider, e.g. 7/12) tracks program health (progress summary, cohort health, pathway performance, and gender/location snapshot). The right column (narrower, e.g. 5/12) focuses on intervention and oversight (attention required, low-bandwidth access summary, and recent activity timeline).
+*   **Responsive Navigation Controls:**
+    *   Mobile viewports stack all sections into a single clean column, using a h-16 bottom navigation bar for module navigation.
+    *   Tablet and desktop viewports must strictly hide the bottom navigation bar when the desktop sidebar is rendered. The bottom navigation bar must never appear simultaneously with the sidebar on any viewport.
+*   **Compact Mobile Cards & Table-to-Card Conversion:** Mobile views must feature compact, optimized cards. Multi-column tables (such as regional records or learner details) must be dynamically converted into stacked visual cards on mobile viewports to prevent overflow, scrolling, or squished texts.
+*   **Mobile-First Programme Dashboard Flow:** The mobile dashboard must not use desktop hero patterns. It should start with a compact programme pulse card, today's priority actions, quick-action shortcuts, and highly compact KPI cards. Avoid stacked oversized chips, large vertical CTA buttons, long subtitles, heavy hero cards, and desktop-sized KPI cards. Mobile dashboards must surface useful data within the first screen and maintain safe spacing above the bottom navigation bar.
+*   **Typography & Number Formats:** All key metrics, user counts, percentage trackers, and credits must utilize the clean, highly-readable "Inter" sans-serif font family. Monospace or slab-serif system fonts are forbidden for dashboard figures, ensuring consistent visual elegance.
+
+---
+
+## 37. Programme Learner Management Design Standards
+*   **Workspace Atmosphere:** Programme learner management must feel like a premium learner operations workspace, not a registry or database table. Avoid words such as registry, milestone pathway, bandwidth adaptation, verified complete, and standard bandwidth.
+*   **Adaptive Responsive Layouts:** Desktop views may use a highly refined, elegant product table. Mobile and tablet viewports must strictly convert learner detail rows into stacked, highly optimized visual cards to prevent squeeze or horizontal scrolling.
+*   **Dependent Nigeria Location Filters:** State and LGA dropdown filters must use the Nigeria location data module (`src/data/nigeriaLocations.ts`), and the LGA dropdown choices must depend dynamically on the selected state (hiding unrelated LGAs).
+*   **Human Status & Access Language:** Status chips and labels must use human learner-support language:
+    *   *Status:* "Active", "Review pending", "Certificate ready", "Needs follow-up".
+    *   *Access:* "Low-bandwidth access" and "Standard access".
+*   **Prototype Actions:** Action buttons like "Import Learners", "Export List", or "View Reports" that are not fully wired should trigger clean, informative prototype overlays.
+*   **Premium Visual Refinements:** Programme learner management must use refined product-table design on desktop and learner cards on mobile/tablet. Learner IDs must not appear as broken grey blocks, gender must not be shown in uppercase, and repeated action buttons must remain compact. Avoid registry language, spreadsheet-style rows, heavy borders, boxed IDs, all-caps LGAs, oversized chips, and generic enterprise-table styling.
+
+---
+
+## 39. Learner Drawer, Mobile Views, and Pagination Standards
+*   **Learner Record Drawer**:
+    *   **Desktop Layout**: Opens as a sleek right-side drawer panel with a soft backdrop overlay (`bg-slate-950/40 backdrop-blur-xs`), smooth exit/entry transitions, and easy click-outside dismissal.
+    *   **Mobile & Tablet Layout**: Adapts automatically into a bottom-sheet modal styled with generous corner rounding (`rounded-t-[32px]`) and scrolling behavior to maximize touch real estate.
+    *   **Content Architecture**: Displays a human-centric "Learner summary", "Pathway and cohort" information, "Progress and CPD" metrics with a beautiful visual slider, and "Assessment and attendance" states.
+    *   **Action Hub**: Features clear, compact action triggers for specific, realistic operations ("Review Certificate", "View Support Logs", "Send Follow-up") that open corresponding interactive feedback modals rather than leaving users with dead buttons.
+*   **Mobile Card View**:
+    *   Replaces wide, dense desktop tables with high-contrast, stacked cards (`bg-white rounded-3xl border border-slate-200/70 p-5 shadow-xs`).
+    *   Programme learner cards on mobile must not copy desktop table density. Cards should prioritise learner identity, status, CPD progress, pathway/cohort/location, access mode, and one clear action. Avoid squeezed two-column detail layouts, broken learner IDs, oversized status chips, all-caps gender, heavy dividers, and competing bottom-row buttons.
+    *   Includes clear, compact identity details (large dynamic avatar, learner ID, gender), location tags, pathway/cohort, progress bar, and touch-optimized action triggers (e.g., "View record" button) designed with a minimum 44px touch target.
+*   **Dynamic Pagination Engine**:
+    *   **Style & Aesthetic**: Encased in a bordered, white, shadowed footer container matching the parent list card perfectly.
+    *   **Interactive Control**: Integrates rows-per-page selectors, compact page numbers, and responsive "Prev" / "Next" triggers styled with deep emerald active indicators and soft slate borders.
+    *   **Ecosystem Integration**: Dynamically slices and paginates mock data arrays for high-fidelity interactive simulation, and automatically resets `currentPage` back to `1` when filters, search queries, or rows-per-page selectors are adjusted.
+
+---
+
+## 40. Programme Cohort Management Design Standards
+*   **National Delivery Tone:** Deliver a highly polished, professional cohort tracking dashboard. Absolutely avoid administrative lingo like "Localized workloads," "Cohort controls," "Database sync," and "Pending portfolios." Instead, use clean, development-sector human language: "Find cohorts," "LGA delivery," and "CPD reviews pending."
+*   **Bento summary strip:** The top of the page must feature a highly compact stat summary strip summarizing active delivery states, learners assigned, regional facilitators, and reviews pending to tell a clear delivery story.
+*   **Interactive Modal Flows:** Actionable operations for the Programme Team (Create Cohort, Edit Details, Assign Facilitator, Import Learners, and Export Reports) must be fully interactive with stateful, high-fidelity overlays, file drop progress animations, format selectors, and immediate visual success indicators.
+*   **Dependent Nigeria Location Filters:** State and LGA selection must utilize the Nigeria location module (`src/data/nigeriaLocations.ts`). The LGA field must be disabled until a state is chosen, and dynamically restrict its dropdown choices to the selected state's LGAs.
+*   **Cohort Card Responsive Ordering:** Cohort cards must follow the precise mobile card layout hierarchy:
+    1.  Cohort ID and Status chip (Top row)
+    2.  Cohort Name (Sentence case) and Pathway subtitle
+    3.  Lead Facilitator block (Clean card, circular avatar with initials)
+    4.  Progress indicator (Compact horizontal bar, percentage value)
+    5.  Key metrics grid (Enrolled, Active, CPD Ready, Offline mode)
+    6.  Alert banner (Soft amber/rose card highlighting critical actions required, e.g. "8 learners awaiting CPD review")
+    7.  Compact actions row (Edit details, Assign Lead, View Cohort drawer)
+*   **Bottom Sheet (Mobile) & Sliding Right Drawer (Desktop):** Detailed cohort overviews must use a slide-out right drawer on desktop and transition into a touch-optimized bottom sheet modal on mobile. The drawer must display comprehensive delivery breakdowns, active tutor profiles, pending checklists, and direct CTA actions.
+
+---
+
+## 42. Programme Reports Design Standards
+*   **Premium Reports Atmosphere:** Programme Reports must feel like a premium reporting and insights workspace, not an audit or compliance module.
+*   **Strict Language Safeguards:** Completely avoid technical database, administrative, or compliance terms like "audit," "compliance audit," "statistical distribution," "gender ratios," "connectivity adaptation," "official statistics," "registry," "sync," "metadata," or "reporting deadlines." Replace them with warm, human programme language: "reports and insights," "participation," "completion rate," "CPD readiness," "certificate pipeline," "location coverage," "gender participation," "low-bandwidth access," "offline packs," "saved drafts," and "waiting to upload."
+*   **Layout and Device Adaptability:**
+    *   **Mobile viewports:** Must feature a compact, clean hero, simple collapsed filters behind a "More filters" button, active filter chips for easily managing criteria, and horizontal-scrolling sentence-case tabs. Tables must be automatically transformed into stacked mobile cards with generous spacing.
+    *   **Tablet viewports:** Organize filters into 2 or 3 columns and key programme indicators (KPIs) into balanced columns. Ensure no sidebar conflict exists.
+    *   **Desktop viewports:** Maintain a full-screen premium analytics environment. Present KPIs in a balanced grid (such as 3 columns x 2 rows), and render location coverage data as an elegant, clean tabular workspace.
+*   **Tactile and Interactive Elements:** Report exports (PDF and CSV) must not be dead links. Trigger a beautiful, high-fidelity modal detailing exactly which report sections to include and the progress of the compilation simulation. Once completed, allow downloading the mock prototype document, transitioning into a successful state with feedback.
+*   **Soft Containment & Layout Details:** Programme report sections must use soft containment, not heavy bordered report panels. Tables on desktop should feel like premium product tables with sentence-case headers, soft row dividers, and subtle hover states. On mobile, every table must convert to readable cards. Avoid dark section borders, uppercase metric headers, harsh table frames, compliance/admin language, and raw spreadsheet styling. Use softly lifted white cards with rounded-3xl, custom shadows, and borders with `border-slate-200/70` rather than thick or dark borders. Progress bars must be modern, highly refined, with proper color fills and balanced text.
+
+
+---
+
+## 41. Programme Certificates Design Standards
+*   **Workflow Atmosphere:** Programme Certificates must feel like a certificate review and issuance workflow, not an audit queue.
+*   **Programme Certificates Rule:** The Programme Certificates module must be action-complete, not decorative. Every visible action must either navigate, open a modal/sheet, update selected state, or show a prototype-safe confirmation. Review buttons must update the selected certificate detail panel on desktop and open a full-screen review sheet on mobile. Issue certificate, request follow-up, bulk issue, export, learner record, pagination, and public verification actions must never be dead. Desktop uses a two-column review workspace; mobile uses cards and full-screen sheets. Avoid nested scrollbars, fixed desktop action footers, raw checkboxes, dark chip borders, broken overlays, and disconnected side panels.
+*   **Strict Language Safeguards:** Completely avoid technical database, administrative, or compliance terms like "audit," "portfolio submissions," "evidence checklists," "query raised," "registry," "credential tracking," "issue status," "protocol," "database," "sync," or "metadata." Replace them with warm, human programme language: "Certificate Review", "Certificate Review and Issuance", "Certificate readiness", "Ready for review", "Requires follow-up", "Facilitator confirmation", "CPD complete", "Assessment reviewed", "Attendance confirmed", "Programme approval", "Public verification", "facilitator notes", and "learner record".
+*   **Scroll Architecture (One-Scroll-Owner Rule):** Programme Certificates must follow a one-scroll-owner rule. Desktop certificate detail panels must not use internal scroll containers or fixed action footers; actions sit naturally after content. Mobile review sheets may use one full-screen scroll container with a safe sticky footer. Avoid nested scrollbars, content scrolling under buttons, raw checkboxes, flat admin queue rows, dark chip borders, and split-panel layouts on mobile.
+*   **Layout and Device Adaptability:**
+    *   **Mobile viewports:** Must feature a compact, clean hero, simple collapsed filters, and active filter chips. List items must be rendered as high-contrast, stacked cards with learner identity at the top, a status chip, and requirement indicators. Tapping "Review" or a card opens a full-screen review sheet modal with a sticky header and sticky bottom action bar, avoiding squeezed right-panel layouts on smaller screens.
+    *   **Tablet viewports:** Cards remain balanced and filters collapsed/grid. Squeezed split panels are disabled at 768px and 820px, switching to a wider list + bottom sheet review modal workflow.
+    *   **Desktop viewports:** Premium full-screen two-panel workspace where the left panel houses a polished review list and the right panel houses the selected learner's certificate detail. Avoid massive blank empty states in the right panel by default, and instead show a helpful guide/workflow explanation.
+*   **Interactive Modals:** Actionable operations (Issue Certificate, Request Follow-up, View Learner Record) must trigger stateful, high-fidelity overlays or confirmation dialogs with clear checks, safe prototype language, and success feedback states.
+*   **Mobile Pagination & Records Summary standards:**
+    *   The records and page status indicator must use clear vertical layout hierarchies. Avoid cramped lines or awkward text alignment on mobile screens. 
+    *   The "Page X of Y" descriptor and record counts must be left-aligned on small displays to establish a professional reading grid.
+*   **Refined Mobile Details Sheet (Active Review Panel):**
+    *   **Stacked layout:** Labels and values must be clean, stacked, sentence-case, utilizing standard sans-serif text (never monospace for normal values, never uppercase).
+    *   **No nested scrolling:** The sheet overlay must utilize a single scrolling container with safe bottom padding to prevent double scrollbars.
+    *   **44px tap targets:** Close buttons and action boundaries must maintain minimum 44px boundaries for easy mobile operation.
+    *   **Premium Review Certificate Detail Flow:** Review Certificate detail views must use a premium certificate-review flow: sticky header, summary card, compact learner details, one readiness checklist card, refined certificate record, facilitator confirmation, and safe sticky actions. On mobile, avoid raw two-column record layouts, long pending-value text that wraps awkwardly, black borders, nested scrollbars, raw tables, and generic form-like panels.
+
+
+---
+
+## 43. Implementation Checklist
 Before completing any UI, layout, or copy adjustment, verify the following checklist:
 
-1.  [ ] **Read design.md:** Confirm changes match the official design rules.
-2.  [ ] **Zero Forbidden Terms:** Ensure no system versions, AI tags, or snake_case fields are present in user-facing views.
-3.  [ ] **AA Contrast & Focus:** Verify font colors are highly readable and interactive states are visible.
-4.  [ ] **Touch Targets:** Confirm touch points are at least 44px on mobile views.
-5.  [ ] **Mobile Wrap & Overflow:** Ensure no text clips, buttons are hidden, or horizontal scrolling occurs on mobile (360px+).
-6.  [ ] **Prototype Integrity:** Check that all buttons lead to actual routes, open drawers/modals, or trigger valid toasts.
-7.  [ ] **Flawless Compile:** Run `npm run lint` and `npm run build` to guarantee successful builds without any errors or warnings.
+1.  [x] **Read design.md:** Confirm changes match the official design rules.
+2.  [x] **Zero Forbidden Terms:** Ensure no system versions, AI tags, or snake_case fields are present in user-facing views.
+3.  [x] **AA Contrast & Focus:** Verify font colors are highly readable and interactive states are visible.
+4.  [x] **Touch Targets:** Confirm touch points are at least 44px on mobile views.
+5.  [x] **Mobile Wrap & Overflow:** Ensure no text clips, buttons are hidden, or horizontal scrolling occurs on mobile (360px+).
+6.  [x] **Prototype Integrity:** Check that all buttons lead to actual routes, open drawers/modals, or trigger valid toasts.
+7.  [x] **Flawless Compile:** Run `npm run lint` and `npm run build` to guarantee successful builds without any errors or warnings.
